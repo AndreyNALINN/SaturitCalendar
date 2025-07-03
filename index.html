@@ -1,19 +1,43 @@
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="format-detection" content="telephone=no">
     <title>Управление бригадами и складом</title>
     <style>
         * {
             box-sizing: border-box;
         }
         
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        html, body {
             margin: 0;
             padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             color: #1d1d1f;
             font-size: 14px;
-            overflow-x: hidden;
+        }
+        
+        /* Скрываем все лишние элементы браузера */
+        *:not(script):not(style) {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        
+        input, textarea {
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            user-select: text;
         }
         
         .container {
@@ -21,6 +45,8 @@
             margin: 0 auto;
             padding: 10px;
             box-sizing: border-box;
+            min-height: 100vh;
+            position: relative;
         }
         
         @media (min-width: 768px) {
@@ -58,10 +84,16 @@
         .header h1 {
             margin: 0;
             color: #1d1d1f;
-            font-size: 20px;
+            font-size: 16px;
             font-weight: 600;
             flex: 1;
-            min-width: 200px;
+            min-width: 120px;
+        }
+        
+        @media (min-width: 480px) {
+            .header h1 {
+                font-size: 20px;
+            }
         }
         
         @media (min-width: 768px) {
@@ -80,11 +112,23 @@
         .user-badge {
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
-            padding: 6px 12px;
-            border-radius: 15px;
-            font-size: 12px;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 10px;
             font-weight: 500;
             white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 120px;
+        }
+        
+        @media (min-width: 480px) {
+            .user-badge {
+                padding: 6px 12px;
+                border-radius: 15px;
+                font-size: 12px;
+                max-width: 150px;
+            }
         }
         
         @media (min-width: 768px) {
@@ -92,6 +136,7 @@
                 padding: 8px 16px;
                 border-radius: 20px;
                 font-size: 14px;
+                max-width: none;
             }
         }
         
@@ -135,7 +180,7 @@
         
         .tabs {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            grid-template-columns: repeat(4, 1fr);
             background: #f8f9fa;
             border-bottom: 1px solid #e9ecef;
         }
@@ -147,12 +192,12 @@
         }
         
         .tab {
-            padding: 12px 8px;
+            padding: 8px 4px;
             text-align: center;
             cursor: pointer;
             border: none;
             background: transparent;
-            font-size: 12px;
+            font-size: 10px;
             font-weight: 500;
             color: #6c757d;
             transition: all 0.3s ease;
@@ -160,6 +205,19 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 50px;
+        }
+        
+        @media (min-width: 480px) {
+            .tab {
+                padding: 10px 6px;
+                font-size: 11px;
+                min-height: 55px;
+            }
         }
         
         @media (min-width: 768px) {
@@ -167,6 +225,8 @@
                 flex: 1;
                 padding: 20px;
                 font-size: 16px;
+                flex-direction: row;
+                min-height: auto;
             }
         }
         
@@ -292,15 +352,15 @@
         
         .day-number {
             font-weight: 600;
-            margin-bottom: 2px;
-            font-size: 10px;
+            margin-bottom: 1px;
+            font-size: 9px;
             line-height: 1;
         }
         
         @media (min-width: 480px) {
             .day-number {
-                margin-bottom: 4px;
-                font-size: 12px;
+                margin-bottom: 2px;
+                font-size: 11px;
             }
         }
         
@@ -431,14 +491,23 @@
         
         .modal-content {
             background: white;
-            padding: 20px;
-            border-radius: 15px;
-            width: 100%;
-            max-width: 400px;
-            max-height: 90vh;
+            padding: 15px;
+            border-radius: 12px;
+            width: calc(100% - 20px);
+            max-width: 350px;
+            max-height: 85vh;
             overflow-y: auto;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             animation: modalSlideIn 0.3s ease;
+            margin: 10px;
+        }
+        
+        @media (min-width: 480px) {
+            .modal-content {
+                padding: 20px;
+                max-width: 380px;
+                border-radius: 15px;
+            }
         }
         
         @media (min-width: 768px) {
@@ -507,13 +576,22 @@
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
             border: none;
-            padding: 10px 16px;
+            padding: 8px 12px;
             border-radius: 8px;
             cursor: pointer;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 500;
             transition: all 0.3s ease;
-            min-height: 44px;
+            min-height: 36px;
+            white-space: nowrap;
+        }
+        
+        @media (min-width: 480px) {
+            button {
+                padding: 10px 16px;
+                font-size: 13px;
+                min-height: 40px;
+            }
         }
         
         @media (min-width: 768px) {
@@ -521,6 +599,7 @@
                 padding: 12px 24px;
                 border-radius: 12px;
                 font-size: 14px;
+                min-height: 44px;
             }
         }
         
@@ -1057,23 +1136,58 @@
         .chip-selector {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
+            gap: 4px;
             margin-top: 8px;
+        }
+        
+        @media (min-width: 480px) {
+            .chip-selector {
+                gap: 6px;
+            }
+        }
+        
+        @media (min-width: 768px) {
+            .chip-selector {
+                gap: 8px;
+            }
         }
         
         .chip-option {
             background: #f8f9fa;
             border: 2px solid #e9ecef;
             color: #495057;
-            padding: 8px 12px;
-            border-radius: 20px;
+            padding: 6px 8px;
+            border-radius: 15px;
             cursor: pointer;
-            font-size: 13px;
+            font-size: 11px;
             font-weight: 500;
             transition: all 0.3s ease;
             user-select: none;
             text-align: center;
-            min-width: 60px;
+            min-width: 40px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 80px;
+        }
+        
+        @media (min-width: 480px) {
+            .chip-option {
+                padding: 7px 10px;
+                font-size: 12px;
+                min-width: 50px;
+                max-width: 100px;
+            }
+        }
+        
+        @media (min-width: 768px) {
+            .chip-option {
+                padding: 8px 12px;
+                border-radius: 20px;
+                font-size: 13px;
+                min-width: 60px;
+                max-width: none;
+            }
         }
         
         .chip-option:hover {
@@ -1215,12 +1329,26 @@
             color: #721c24;
         }
         
+        /* Скрываем любой контент после основного приложения */
+        body::after {
+            content: '';
+            display: block;
+            clear: both;
+            height: 0;
+            overflow: hidden;
+        }
+        
         /* Responsive button groups */
         .button-group {
             display: flex;
             gap: 8px;
             flex-wrap: wrap;
             align-items: center;
+        }
+        
+        /* Финальная очистка - скрываем все после основного контента */
+        #main-app ~ * {
+            display: none !important;
         }
         <!DOCTYPE html>
 <html lang="ru">
@@ -1862,10 +1990,22 @@
             
             <div class="main-content">
                 <div class="tabs" id="main-tabs">
-                    <button class="tab active" onclick="switchTab('calendar')">📅 Календарь</button>
-                    <button class="tab" onclick="switchTab('teams')" id="teams-tab">👥 Бригады</button>
-                    <button class="tab" onclick="switchTab('inventory')">📦 Склад</button>
-                    <button class="tab" onclick="switchTab('requests')" id="requests-tab">📋 Заявки</button>
+                    <button class="tab active" onclick="switchTab('calendar')">
+                        <span>📅</span>
+                        <span>Календарь</span>
+                    </button>
+                    <button class="tab" onclick="switchTab('teams')" id="teams-tab">
+                        <span>👥</span>
+                        <span>Бригады</span>
+                    </button>
+                    <button class="tab" onclick="switchTab('inventory')">
+                        <span>📦</span>
+                        <span>Склад</span>
+                    </button>
+                    <button class="tab" onclick="switchTab('requests')" id="requests-tab">
+                        <span>📋</span>
+                        <span>Заявки</span>
+                    </button>
                 </div>
                 
                 <div id="calendar" class="tab-content active">
@@ -2470,7 +2610,7 @@
                 });
                 
                 // Определяем максимальное количество событий в зависимости от размера экрана
-                const maxEvents = window.innerWidth < 480 ? 3 : window.innerWidth < 768 ? 4 : 6;
+                const maxEvents = window.innerWidth < 380 ? 2 : window.innerWidth < 480 ? 3 : window.innerWidth < 768 ? 4 : 6;
                 const visibleEvents = dayEvents.slice(0, maxEvents);
                 const hiddenCount = dayEvents.length - visibleEvents.length;
                 
@@ -2479,7 +2619,9 @@
                     if (event.type === 'team') {
                         const teamColor = getTeamColor(event.teamId);
                         const teamName = getTeamName(event.teamId);
-                        const shortName = teamName.length > 8 ? teamName.substring(0, 8) + '...' : teamName;
+                        const shortName = window.innerWidth < 480 ? 
+                            (teamName.length > 6 ? teamName.substring(0, 6) + '..' : teamName) :
+                            (teamName.length > 8 ? teamName.substring(0, 8) + '...' : teamName);
                         eventsHtml += `
                             <div class="event" style="background: linear-gradient(135deg, ${teamColor}, ${teamColor}dd);" onclick="openEventDetails(${event.id}); event.stopPropagation();" title="${teamName} - ${event.address}">
                                 ${shortName}
@@ -2487,7 +2629,9 @@
                         `;
                     } else if (event.type === 'vacation') {
                         const employeeName = getEmployeeName(event.employeeId);
-                        const shortName = employeeName.split(' ')[0]; // Только имя
+                        const shortName = window.innerWidth < 480 ? 
+                            employeeName.split(' ')[0].substring(0, 4) + (employeeName.split(' ')[0].length > 4 ? '..' : '') :
+                            employeeName.split(' ')[0]; // Только имя
                         eventsHtml += `
                             <div class="event vacation" onclick="openEventDetails(${event.id}); event.stopPropagation();" title="${employeeName} - отпуск">
                                 ${shortName}
