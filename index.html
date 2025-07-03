@@ -315,10 +315,12 @@
             }
         }
         
+        /* === ИЗМЕНЕНИЯ ЗДЕСЬ === */
         .calendar-day {
             background: white;
             padding: 6px 4px;
-            min-height: 80px;
+            aspect-ratio: 1 / 1; /* Делаем ячейку квадратом */
+            overflow: hidden;    /* Скрываем всё, что не помещается */
             position: relative;
             cursor: pointer;
             transition: all 0.2s ease;
@@ -328,18 +330,17 @@
         
         @media (min-width: 480px) {
             .calendar-day {
-                min-height: 100px;
                 padding: 8px 6px;
             }
         }
         
         @media (min-width: 768px) {
             .calendar-day {
-                min-height: 120px;
                 padding: 12px 8px;
             }
         }
-        
+        /* === КОНЕЦ ИЗМЕНЕНИЙ === */
+
         .calendar-day:hover {
             background: #f8f9fa;
             transform: scale(1.02);
