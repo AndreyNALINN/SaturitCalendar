@@ -12,19 +12,20 @@
             box-sizing: border-box;
         }
         
-        html, body {
+        html {
+            width: 100%;
+            min-height: 100vh; /* Используем vh для полной высоты вьюпорта */
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        body {
             margin: 0;
             padding: 0;
             width: 100%;
             height: 100%;
             overflow-x: hidden;
             position: relative;
-        }
-        
-        body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
             color: #1d1d1f;
             font-size: 14px;
         }
@@ -116,23 +117,14 @@
         .user-badge {
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
-            padding: 4px 8px;
-            border-radius: 12px;
-            font-size: 10px;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 12px;
             font-weight: 500;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            max-width: 120px;
-        }
-        
-        @media (min-width: 480px) {
-            .user-badge {
-                padding: 6px 12px;
-                border-radius: 15px;
-                font-size: 12px;
-                max-width: 150px;
-            }
+            max-width: 150px;
         }
         
         @media (min-width: 768px) {
@@ -148,16 +140,17 @@
             background: #ff3b30;
             color: white;
             border: none;
-            padding: 6px 12px;
+            padding: 8px 14px;
             border-radius: 15px;
             cursor: pointer;
-            font-size: 12px;
+            font-size: 13px;
             transition: all 0.3s ease;
+            min-height: 40px;
         }
         
         @media (min-width: 768px) {
             .logout-btn {
-                padding: 8px 16px;
+                padding: 10px 18px;
                 border-radius: 20px;
                 font-size: 14px;
             }
@@ -196,12 +189,12 @@
         }
         
         .tab {
-            padding: 8px 4px;
+            padding: 10px 4px;
             text-align: center;
             cursor: pointer;
             border: none;
             background: transparent;
-            font-size: 10px;
+            font-size: 11px;
             font-weight: 500;
             color: #6c757d;
             transition: all 0.3s ease;
@@ -214,14 +207,14 @@
             align-items: center;
             justify-content: center;
             gap: 4px;
-            min-height: 50px;
+            min-height: 60px;
         }
         
         @media (min-width: 480px) {
             .tab {
-                padding: 10px 6px;
-                font-size: 11px;
-                min-height: 55px;
+                padding: 12px 6px;
+                font-size: 12px;
+                min-height: 65px;
             }
         }
         
@@ -302,10 +295,10 @@
         .calendar-header {
             text-align: center;
             font-weight: 600;
-            padding: 8px 4px;
+            padding: 10px 4px;
             background: #667eea;
             color: white;
-            font-size: 11px;
+            font-size: 12px;
         }
         
         @media (min-width: 768px) {
@@ -315,102 +308,156 @@
             }
         }
         
-        /* === ИЗМЕНЕНИЯ ЗДЕСЬ === */
         .calendar-day {
             background: white;
-            padding: 6px 4px;
-            aspect-ratio: 1 / 1; /* Делаем ячейку квадратом */
-            overflow: hidden;    /* Скрываем всё, что не помещается */
+            padding: 2px;
+            aspect-ratio: 1 / 1.3;
+            overflow: hidden;
             position: relative;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: background 0.2s ease;
             display: flex;
             flex-direction: column;
         }
         
-        @media (min-width: 480px) {
-            .calendar-day {
-                padding: 8px 6px;
-            }
-        }
-        
         @media (min-width: 768px) {
             .calendar-day {
-                padding: 12px 8px;
+                padding: 4px;
             }
         }
-        /* === КОНЕЦ ИЗМЕНЕНИЙ === */
 
         .calendar-day:hover {
-            background: #f8f9fa;
             transform: scale(1.02);
+            z-index: 10;
         }
         
         .calendar-day.today {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
+            box-shadow: inset 0 0 0 2px #007aff; /* Аккуратная обводка */
+            z-index: 1;
         }
         
         .calendar-day.other-month {
             background: #f8f9fa;
             color: #adb5bd;
+            cursor: default;
+        }
+        .calendar-day.other-month:hover {
+            transform: none;
         }
         
         .day-number {
             font-weight: 600;
-            margin-bottom: 1px;
-            font-size: 9px;
+            font-size: 10px;
             line-height: 1;
+            align-self: flex-start;
+            padding: 2px;
+            color: #333;
+            position: relative;
+            z-index: 5; /* Поверх цветных блоков */
         }
         
         @media (min-width: 480px) {
             .day-number {
-                margin-bottom: 2px;
-                font-size: 11px;
+                font-size: 12px;
             }
         }
         
         @media (min-width: 768px) {
             .day-number {
-                margin-bottom: 8px;
                 font-size: 16px;
             }
+        }
+        
+        .events-container {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end; /* Все события отпусков прижаты к низу */
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 2px;
+        }
+
+        .work-events-wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .vacation-events-wrapper {
+            position: relative;
+            z-index: 3;
+            display: flex;
+            flex-direction: column-reverse;
+            gap: 2px;
+            margin-top: auto; /* Прижимает блок к низу */
+            padding-top: 24px; /* Оставляет место для номера дня */
         }
         
         .event {
             font-size: 8px;
             color: white;
-            padding: 1px 3px;
-            border-radius: 3px;
-            margin-bottom: 1px;
-            white-space: nowrap;
+            padding: 2px 4px;
+            border-radius: 4px;
+            white-space: normal;
+            overflow: hidden;
+            font-weight: 500;
+            line-height: 1.2;
+            max-width: 100%;
+        }
+
+        .event.work-event {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2px;
+            color: #2c2c2e; /* Черный цвет текста для контраста */
+            font-weight: 500;
             overflow: hidden;
             text-overflow: ellipsis;
-            font-weight: 500;
-            line-height: 1.1;
-            max-width: 100%;
+            font-size: 10px; /* Увеличенный шрифт */
+            line-height: 1.3; /* Улучшенная читаемость в 2 строки */
+        }
+        
+        .event.work-event small {
+            font-size: 0.8em;
+            opacity: 0.8;
+            display: block; /* Заставляет адрес быть на новой строке */
+        }
+
+        .event.vacation {
+            width: 100%;
+            background: linear-gradient(135deg, #53d773, #45b961);
+            padding: 2px 3px;
+            border-radius: 2px;
+            text-align: center;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
         }
         
         @media (min-width: 480px) {
-            .event {
-                font-size: 9px;
-                padding: 2px 4px;
-                margin-bottom: 2px;
-                border-radius: 4px;
-                line-height: 1.2;
-            }
+            .event { font-size: 9px; }
+            .event.work-event { font-size: 11px; }
+            .event.vacation { padding: 3px 5px; }
         }
         
         @media (min-width: 768px) {
-            .event {
-                font-size: 11px;
-                padding: 3px 6px;
-                border-radius: 6px;
-            }
-        }
-        
-        .vacation {
-            background: linear-gradient(135deg, #34c759, #28a745);
+            .event { font-size: 11px; }
+            .event.work-event { font-size: 12px; }
+            .event.vacation { padding: 4px 6px; border-radius: 4px; }
         }
         
         .toggle-container {
@@ -500,7 +547,7 @@
             padding: 15px;
             border-radius: 12px;
             width: calc(100% - 20px);
-            max-width: 350px;
+            max-width: 380px;
             max-height: 85vh;
             overflow-y: auto;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
@@ -511,7 +558,7 @@
         @media (min-width: 480px) {
             .modal-content {
                 padding: 20px;
-                max-width: 380px;
+                max-width: 420px;
                 border-radius: 15px;
             }
         }
@@ -520,7 +567,7 @@
             .modal-content {
                 padding: 30px;
                 border-radius: 20px;
-                width: 450px;
+                width: 500px;
                 max-width: 90%;
                 max-height: 80vh;
             }
@@ -531,6 +578,59 @@
             to { opacity: 1; transform: scale(1) translateY(0); }
         }
         
+        .day-events-list {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .day-event-item {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 12px;
+            border-left: 4px solid #667eea;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .day-event-item.vacation {
+            border-left-color: #28a745;
+        }
+        
+        .day-event-info {
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .day-event-info p {
+            margin: 2px 0;
+            font-size: 13px;
+        }
+        
+        .day-event-info strong {
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .day-event-actions {
+            display: flex;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+        
+        .day-event-actions button {
+            padding: 6px 10px;
+            font-size: 12px;
+            min-height: 36px;
+        }
+
         .form-group {
             margin-bottom: 15px;
         }
@@ -557,9 +657,9 @@
         
         input, select, textarea {
             width: 100%;
-            padding: 10px 12px;
+            padding: 12px 14px;
             border: 2px solid #e9ecef;
-            border-radius: 8px;
+            border-radius: 10px;
             box-sizing: border-box;
             font-size: 14px;
             transition: all 0.3s ease;
@@ -567,7 +667,7 @@
         
         @media (min-width: 768px) {
             input, select, textarea {
-                padding: 12px 16px;
+                padding: 14px 16px;
                 border-radius: 12px;
             }
         }
@@ -577,35 +677,57 @@
             border-color: #667eea;
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
+
+        /* --- New styles for equipment list --- */
+        .equipment-row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .equipment-row select {
+            flex: 3;
+        }
+        .equipment-row input {
+            flex: 1;
+        }
+        .equipment-row .remove-btn {
+            flex-shrink: 0;
+            padding: 0;
+            width: 36px;
+            height: 36px;
+            font-size: 18px;
+            line-height: 36px;
+            background: #f8d7da;
+            color: #721c24;
+            min-height: 0;
+        }
+        .add-pipe-btn {
+            background: #d4edda;
+            color: #155724;
+            margin-top: 5px;
+        }
         
         button {
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
             border: none;
-            padding: 8px 12px;
-            border-radius: 8px;
+            padding: 12px 18px;
+            border-radius: 12px;
             cursor: pointer;
-            font-size: 12px;
+            font-size: 14px;
             font-weight: 500;
             transition: all 0.3s ease;
-            min-height: 36px;
+            min-height: 44px;
             white-space: nowrap;
-        }
-        
-        @media (min-width: 480px) {
-            button {
-                padding: 10px 16px;
-                font-size: 13px;
-                min-height: 40px;
-            }
         }
         
         @media (min-width: 768px) {
             button {
-                padding: 12px 24px;
+                padding: 14px 24px;
                 border-radius: 12px;
-                font-size: 14px;
-                min-height: 44px;
+                font-size: 15px;
+                min-height: 48px;
             }
         }
         
@@ -815,16 +937,16 @@
         
         .status-badge {
             display: inline-block;
-            padding: 3px 10px;
+            padding: 4px 12px;
             border-radius: 15px;
-            font-size: 10px;
+            font-size: 11px;
             font-weight: 500;
             text-transform: uppercase;
         }
         
         @media (min-width: 768px) {
             .status-badge {
-                padding: 4px 12px;
+                padding: 5px 14px;
                 border-radius: 20px;
                 font-size: 12px;
             }
@@ -947,7 +1069,7 @@
             margin-bottom: 15px;
             background: white;
             padding: 12px 15px;
-            border-radius: 8px;
+            border-radius: 10px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         }
         
@@ -976,24 +1098,24 @@
             background: #667eea;
             color: white;
             border: none;
-            width: 35px;
-            height: 35px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 18px;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: all 0.3s ease;
-            min-height: 35px;
+            min-height: 40px; /* Увеличено */
         }
         
         @media (min-width: 768px) {
             .nav-button {
-                width: 40px;
-                height: 40px;
-                font-size: 18px;
-                min-height: 40px;
+                width: 44px;
+                height: 44px;
+                font-size: 20px;
+                min-height: 44px; /* Увеличено */
             }
         }
         
@@ -1052,30 +1174,30 @@
         
         .comment-input {
             flex: 1;
-            padding: 6px 8px;
+            padding: 8px 10px;
             border: 1px solid #e9ecef;
-            border-radius: 4px;
-            font-size: 12px;
+            border-radius: 6px;
+            font-size: 13px;
         }
         
         @media (min-width: 768px) {
             .comment-input {
-                padding: 8px;
-                border-radius: 6px;
+                padding: 10px;
+                border-radius: 8px;
                 font-size: 13px;
             }
         }
         
         .comment-btn {
-            padding: 6px 10px;
-            font-size: 11px;
-            min-height: auto;
+            padding: 8px 12px;
+            font-size: 12px;
+            min-height: 38px;
         }
         
         @media (min-width: 768px) {
             .comment-btn {
-                padding: 8px 12px;
-                font-size: 12px;
+                padding: 10px 14px;
+                font-size: 13px;
             }
         }
         
@@ -1103,7 +1225,7 @@
         }
         
         th, td {
-            padding: 8px 10px;
+            padding: 10px 12px;
             text-align: left;
             border-bottom: 1px solid #d2d2d7;
             white-space: nowrap;
@@ -1123,17 +1245,17 @@
         /* Employee chips responsive */
         .employee-chip {
             display: inline-block;
-            padding: 3px 8px;
+            padding: 4px 10px;
             border-radius: 12px;
             margin-right: 4px;
             margin-bottom: 4px;
-            font-size: 11px;
+            font-size: 12px;
             line-height: 1.2;
         }
         
         @media (min-width: 768px) {
             .employee-chip {
-                padding: 4px 10px;
+                padding: 5px 12px;
                 border-radius: 15px;
                 margin-right: 5px;
                 margin-bottom: 5px;
@@ -1144,14 +1266,8 @@
         .chip-selector {
             display: flex;
             flex-wrap: wrap;
-            gap: 4px;
+            gap: 6px;
             margin-top: 8px;
-        }
-        
-        @media (min-width: 480px) {
-            .chip-selector {
-                gap: 6px;
-            }
         }
         
         @media (min-width: 768px) {
@@ -1164,36 +1280,25 @@
             background: #f8f9fa;
             border: 2px solid #e9ecef;
             color: #495057;
-            padding: 6px 8px;
+            padding: 8px 12px;
             border-radius: 15px;
             cursor: pointer;
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 500;
             transition: all 0.3s ease;
             user-select: none;
             text-align: center;
-            min-width: 40px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            max-width: 100px;
-        }
-        
-        @media (min-width: 480px) {
-            .chip-option {
-                padding: 7px 10px;
-                font-size: 12px;
-                min-width: 50px;
-                max-width: 120px;
-            }
+            max-width: 120px;
         }
         
         @media (min-width: 768px) {
             .chip-option {
-                padding: 8px 12px;
+                padding: 10px 14px;
                 border-radius: 20px;
                 font-size: 13px;
-                min-width: 60px;
                 max-width: none;
             }
         }
@@ -1211,32 +1316,36 @@
         }
         
         .chip-option.team-color {
-            color: white;
+            color: #2c2c2e;
             font-weight: 600;
+            border: 2px solid rgba(0,0,0,0.1);
         }
         
         .chip-option.team-color.selected {
             transform: translateY(-2px) scale(1.05);
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            border: 2px solid #333;
         }
         
         .event-type-selector,
         .role-selector,
-        .operation-type-selector {
+        .operation-type-selector,
+        .team-type-selector {
             display: flex;
             gap: 10px;
             margin-top: 8px;
-            flex-wrap: wrap; /* NEW: Allow wrapping */
+            flex-wrap: wrap;
         }
         
         .event-type-option,
         .role-option,
-        .operation-type-option {
+        .operation-type-option,
+        .team-type-option {
             flex: 1;
             background: #f8f9fa;
             border: 2px solid #e9ecef;
             color: #495057;
-            padding: 10px 12px;
+            padding: 12px 14px;
             border-radius: 12px;
             cursor: pointer;
             font-size: 13px;
@@ -1244,28 +1353,31 @@
             transition: all 0.3s ease;
             text-align: center;
             user-select: none;
-            min-width: 120px; /* NEW: Prevent excessive shrinking */
+            min-width: 120px;
         }
         
         @media (min-width: 768px) {
             .event-type-option,
             .role-option,
-            .operation-type-option {
-                padding: 12px 16px;
+            .operation-type-option,
+            .team-type-option {
+                padding: 14px 16px;
                 font-size: 14px;
             }
         }
         
         .event-type-option:hover,
         .role-option:hover,
-        .operation-type-option:hover {
+        .operation-type-option:hover,
+        .team-type-option:hover {
             background: #e9ecef;
             transform: translateY(-1px);
         }
         
         .event-type-option.selected,
         .role-option.selected,
-        .operation-type-option.selected {
+        .operation-type-option.selected,
+        .team-type-option.selected {
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
             border-color: #667eea;
@@ -1299,7 +1411,7 @@
         /* Responsive button groups */
         .button-group {
             display: flex;
-            gap: 8px;
+            gap: 10px;
             flex-wrap: wrap;
             align-items: center;
         }
@@ -1308,7 +1420,7 @@
             display: flex;
             justify-content: flex-end;
             gap: 10px;
-            margin-top: 20px;
+            margin-top: 25px;
             flex-wrap: wrap;
         }
     </style>
@@ -1428,21 +1540,29 @@
     <div id="event-modal" class="modal">
         <div class="modal-content">
             <h2 id="event-modal-title">Добавить событие</h2>
+            <input type="hidden" id="event-id">
             
             <div class="form-group">
                 <label>Тип события</label>
                 <div class="event-type-selector">
-                    <div class="event-type-option selected" onclick="selectEventType(this, 'team')">
-                        🚛 Заезд бригады
+                    <div class="event-type-option selected" onclick="selectEventType(this, 'drilling')">
+                        ⛏️ Бурение
+                    </div>
+                    <div class="event-type-option" onclick="selectEventType(this, 'installation')">
+                        🔧 Монтаж
                     </div>
                     <div class="event-type-option" onclick="selectEventType(this, 'vacation')">
                         🏖️ Отпуск сотрудника
                     </div>
                 </div>
-                <input type="hidden" id="event-type" value="team">
+                <input type="hidden" id="event-type" value="drilling">
             </div>
             
-            <div id="team-fields">
+            <div id="work-fields">
+                <div class="form-group">
+                    <label for="event-date">Дата</label>
+                    <input type="date" id="event-date">
+                </div>
                 <div class="form-group">
                     <label for="event-address">Адрес объекта</label>
                     <input type="text" id="event-address" placeholder="Введите адрес объекта">
@@ -1455,8 +1575,9 @@
                 </div>
                 
                 <div class="form-group">
-                    <label for="event-equipment">Что взять с собой</label>
-                    <textarea id="event-equipment" placeholder="Укажите необходимое оборудование и материалы"></textarea>
+                    <label for="event-equipment">Что взять с собой (трубы)</label>
+                    <div id="equipment-list"></div>
+                    <button class="add-pipe-btn" onclick="addPipeRow()">+ Добавить трубу</button>
                 </div>
             </div>
             
@@ -1480,11 +1601,25 @@
             
             <div class="button-group-end">
                 <button class="button-secondary" onclick="closeModal('event-modal')">Отмена</button>
-                <button onclick="saveEvent()">Сохранить</button>
+                <button id="save-event-btn" onclick="saveEvent()">Сохранить</button>
             </div>
         </div>
     </div>
     
+    <div id="day-details-modal" class="modal">
+        <div class="modal-content">
+            <h2 id="day-details-title">События на день</h2>
+            <div id="day-events-list">
+                <!-- Сюда будут рендериться события дня -->
+            </div>
+            <div class="button-group-end">
+                <button class="button-secondary" onclick="closeModal('day-details-modal')">Закрыть</button>
+                <button id="add-event-from-day-btn" onclick="addEventFromDayView()">Добавить событие</button>
+                <button id="request-vacation-from-day-btn" onclick="requestVacationFromDayView()">Запросить отпуск</button>
+            </div>
+        </div>
+    </div>
+
     <div id="vacation-request-modal" class="modal">
         <div class="modal-content">
             <h2>Запрос на отпуск</h2>
@@ -1520,11 +1655,6 @@
                 <input type="number" id="request-amount" min="1">
             </div>
             
-            <div class="form-group">
-                <label for="request-reason">Причина</label>
-                <textarea id="request-reason" placeholder="Укажите для чего нужны материалы"></textarea>
-            </div>
-            
             <div class="button-group-end">
                 <button class="button-secondary" onclick="closeModal('inventory-request-modal')">Отмена</button>
                 <button onclick="submitInventoryRequest()">Отправить заявку</button>
@@ -1540,7 +1670,7 @@
             <div class="comment-section" id="comment-section">
                 <h4>Комментарии</h4>
                 <div id="comments-list"></div>
-                <div class="add-comment">
+                <div class="add-comment" id="add-comment-form">
                     <input type="text" id="new-comment" class="comment-input" placeholder="Добавить комментарий...">
                     <button class="comment-btn" onclick="addComment()">Отправить</button>
                 </div>
@@ -1560,17 +1690,30 @@
                 <label for="team-name">Название бригады</label>
                 <input type="text" id="team-name" placeholder="Введите название бригады">
             </div>
+
+            <div class="form-group">
+                <label>Тип бригады</label>
+                <div class="team-type-selector">
+                    <div class="team-type-option selected" onclick="selectTeamType(this, 'drillers')">
+                        ⛏️ Бурильщики
+                    </div>
+                    <div class="team-type-option" onclick="selectTeamType(this, 'installers')">
+                        🔧 Монтажники
+                    </div>
+                </div>
+                <input type="hidden" id="team-type" value="drillers">
+            </div>
             
             <div class="form-group">
                 <label>Цвет бригады</label>
                 <div class="chip-selector" id="color-chips">
-                    <div class="chip-option team-color selected" style="background-color: #667eea; border-color: #667eea;" onclick="selectTeamColor(this, '#667eea')">Синий</div>
-                    <div class="chip-option team-color" style="background-color: #34c759; border-color: #34c759;" onclick="selectTeamColor(this, '#34c759')">Зеленый</div>
-                    <div class="chip-option team-color" style="background-color: #ff9500; border-color: #ff9500;" onclick="selectTeamColor(this, '#ff9500')">Оранжевый</div>
-                    <div class="chip-option team-color" style="background-color: #ff2d55; border-color: #ff2d55;" onclick="selectTeamColor(this, '#ff2d55')">Красный</div>
-                    <div class="chip-option team-color" style="background-color: #5856d6; border-color: #5856d6;" onclick="selectTeamColor(this, '#5856d6')">Фиолетовый</div>
+                    <div class="chip-option team-color selected" style="background-color: #a7c7e7;" onclick="selectTeamColor(this, '#a7c7e7')">Голубой</div>
+                    <div class="chip-option team-color" style="background-color: #98fb98;" onclick="selectTeamColor(this, '#98fb98')">Зеленый</div>
+                    <div class="chip-option team-color" style="background-color: #ffb347;" onclick="selectTeamColor(this, '#ffb347')">Оранжевый</div>
+                    <div class="chip-option team-color" style="background-color: #ff6961;" onclick="selectTeamColor(this, '#ff6961')">Красный</div>
+                    <div class="chip-option team-color" style="background-color: #b19cd9;" onclick="selectTeamColor(this, '#b19cd9')">Фиолетовый</div>
                 </div>
-                <input type="hidden" id="team-color" value="#667eea">
+                <input type="hidden" id="team-color" value="#a7c7e7">
             </div>
             
             <div class="button-group-end">
@@ -1692,12 +1835,13 @@
         let currentDate = new Date();
         let selectedDate = null;
         let selectedInventoryItem = null;
-        let selectedTeamColor = "#667eea";
+        let selectedTeamColor = "#a7c7e7"; // Default pastel color
         let selectedEventForDetails = null;
         
         let teams = [
-            { id: 1, name: "Бригада 1", color: "#667eea" },
-            { id: 2, name: "Бригада 2", color: "#34c759" }
+            { id: 1, name: "Бурильщики 1", color: "#a7c7e7", type: 'drillers' }, // Pastel Blue
+            { id: 2, name: "Монтажники 1", color: "#98fb98", type: 'installers' }, // Pastel Green
+            { id: 3, name: "Бурильщики 2", color: "#ffb347", type: 'drillers' }  // Pastel Orange
         ];
         
         let employees = [
@@ -1710,11 +1854,11 @@
         let events = [
             { 
                 id: 1, 
-                type: "team", 
+                type: "drilling", 
                 date: formatDate(new Date()), 
                 address: "ул. Строителей, 15", 
                 teamId: 1, 
-                equipment: "Инструменты, материалы",
+                equipment: [{pipeId: 1, meters: 50}, {pipeId: 5, meters: 100}],
                 comments: []
             },
             { 
@@ -1723,6 +1867,24 @@
                 startDate: formatDate(new Date(new Date().setDate(new Date().getDate() + 2))), 
                 endDate: formatDate(new Date(new Date().setDate(new Date().getDate() + 9))), 
                 employeeId: 4,
+                comments: []
+            },
+            { 
+                id: 3, 
+                type: "installation", 
+                date: formatDate(new Date(new Date().setDate(new Date().getDate() + 4))), 
+                address: "пр. Мира, 1", 
+                teamId: 2, 
+                equipment: [{pipeId: 2, meters: 30}],
+                comments: []
+            },
+            { 
+                id: 4, 
+                type: "drilling", 
+                date: formatDate(new Date(new Date().setDate(new Date().getDate() + 4))), 
+                address: "дер. Новая, 22", 
+                teamId: 3, 
+                equipment: [{pipeId: 3, meters: 100}],
                 comments: []
             }
         ];
@@ -1758,6 +1920,11 @@
             }
         ];
         
+        // --- Helper function to check for work events ---
+        function isWorkEvent(event) {
+            return event.type === 'drilling' || event.type === 'installation';
+        }
+
         // Аутентификация
         function login() {
             const username = document.getElementById('username').value;
@@ -1872,7 +2039,7 @@
         
         function getTeamColor(id) {
             const team = teams.find(t => t.id === id);
-            return team ? team.color : "#667eea";
+            return team ? team.color : "#cccccc";
         }
         
         function getEmployeeName(id) {
@@ -1926,81 +2093,72 @@
             const month = currentDate.getMonth();
             const daysInMonth = getDaysInMonth(year, month);
             const firstDay = getFirstDayOfMonth(year, month);
-            
+
             document.getElementById('current-month').textContent = getMonthName(currentDate);
-            
+
             const calendarDaysEl = document.getElementById('calendar-days');
             calendarDaysEl.innerHTML = '';
-            
+
             let calendarDays = '';
-            
+
             // Добавляем пустые ячейки для выравнивания первого дня месяца
             for (let i = 0; i < firstDay; i++) {
                 calendarDays += `<div class="calendar-day other-month"></div>`;
             }
-            
+
             // Дни текущего месяца
             const today = formatDate(new Date());
             for (let day = 1; day <= daysInMonth; day++) {
                 const date = new Date(year, month, day);
                 const formattedDate = formatDate(date);
-                const dayEvents = events.filter(e => {
-                    if (e.type === 'team') {
-                        return e.date === formattedDate;
-                    } else if (e.type === 'vacation' && showVacations) {
-                        return e.startDate <= formattedDate && e.endDate >= formattedDate;
-                    }
-                    return false;
-                });
                 
-                const maxEvents = window.innerWidth < 480 ? 2 : window.innerWidth < 768 ? 3 : 5;
-                const visibleEvents = dayEvents.slice(0, maxEvents);
-                const hiddenCount = dayEvents.length - visibleEvents.length;
-                
-                let eventsHtml = '';
-                visibleEvents.forEach(event => {
-                    if (event.type === 'team') {
-                        const teamColor = getTeamColor(event.teamId);
-                        const teamName = getTeamName(event.teamId);
-                        eventsHtml += `
-                            <div class="event" style="background: ${teamColor};" onclick="openEventDetails(${event.id}); event.stopPropagation();" title="${teamName} - ${event.address}">
-                                ${teamName}
-                            </div>
-                        `;
-                    } else if (event.type === 'vacation') {
-                        const employeeName = getEmployeeName(event.employeeId);
-                        eventsHtml += `
-                            <div class="event vacation" onclick="openEventDetails(${event.id}); event.stopPropagation();" title="${employeeName} - отпуск">
-                                Отпуск: ${employeeName.split(' ')[0]}
-                            </div>
-                        `;
-                    }
-                });
-                
-                if (hiddenCount > 0) {
-                    eventsHtml += `<div class="event" style="background: #6c757d;">+${hiddenCount} еще...</div>`;
+                const workEvents = events.filter(e => isWorkEvent(e) && e.date === formattedDate);
+                const vacationEvents = showVacations ? events.filter(e => e.type === 'vacation' && e.startDate <= formattedDate && e.endDate >= formattedDate) : [];
+
+                let dayClasses = 'calendar-day';
+                if (formattedDate === today) {
+                    dayClasses += ' today';
                 }
                 
-                const isToday = formattedDate === today;
-                const clickHandler = currentUser.role === 'manager' ? `openEventModal('${formattedDate}')` : '';
-                
+                const workEventsHtml = workEvents.map(event => {
+                    const teamColor = getTeamColor(event.teamId);
+                    const teamNameAbbr = getTeamName(event.teamId).replace('Бурильщики', 'Бур.').replace('Монтажники', 'Монт.');
+                    const eventIcon = event.type === 'drilling' ? '⛏️' : '🔧';
+                    return `<div class="event work-event" style="background-color: ${teamColor};" title="${getTeamName(event.teamId)} - ${event.address}">
+                                <div>
+                                    ${eventIcon} ${teamNameAbbr}
+                                    <small>${event.address}</small>
+                                </div>
+                            </div>`;
+                }).join('');
+
+                const vacationEventsHtml = vacationEvents.map(event => {
+                    const employeeName = getEmployeeName(event.employeeId).split(' ')[0]; // Только фамилия
+                    return `<div class="event vacation" title="${getEmployeeName(event.employeeId)} - отпуск">🏖️ ${employeeName}</div>`;
+                }).join('');
+
+                const clickHandler = `openDayDetailsModal('${formattedDate}')`;
+
                 calendarDays += `
-                    <div class="calendar-day ${isToday ? 'today' : ''}" onclick="${clickHandler}">
+                    <div class="${dayClasses}" onclick="${clickHandler}">
+                        <div class="work-events-wrapper">${workEventsHtml}</div>
                         <div class="day-number">${day}</div>
-                        <div class="events-container">${eventsHtml}</div>
+                        <div class="events-container">
+                            <div class="vacation-events-wrapper">${vacationEventsHtml}</div>
+                        </div>
                     </div>
                 `;
             }
-            
+
             calendarDaysEl.innerHTML = calendarDays;
-            
+
             const totalCells = firstDay + daysInMonth;
             const remainingCells = (totalCells % 7 === 0) ? 0 : 7 - (totalCells % 7);
 
             for (let i = 0; i < remainingCells; i++) {
                  calendarDaysEl.innerHTML += `<div class="calendar-day other-month"></div>`;
             }
-            
+
             renderUpcomingEvents();
         }
         
@@ -2009,12 +2167,12 @@
             let html = '';
             
             if (upcoming.length === 0) {
-                html = '<div>Нет предстоящих событий</div>';
+                html = '<div style="color: #6c757d; font-style: italic;">Нет предстоящих событий</div>';
             } else {
                 upcoming.forEach(day => {
                     html += `<div style="margin-bottom: 10px;"><strong>${day.dateLabel}:</strong></div>`;
                     day.events.forEach(event => {
-                        if (event.type === 'team') {
+                        if (isWorkEvent(event)) {
                             const teamColor = getTeamColor(event.teamId);
                             html += `
                                 <div class="upcoming-event">
@@ -2022,7 +2180,7 @@
                                     <span>${getTeamName(event.teamId)} - ${event.address}</span>
                                 </div>
                             `;
-                        } else if (showVacations) {
+                        } else if (showVacations && event.type === 'vacation') {
                             html += `
                                 <div class="upcoming-event">
                                     <div class="event-indicator" style="background-color: #34c759;"></div>
@@ -2048,7 +2206,7 @@
                 const formattedDate = formatDate(checkDate);
                 
                 const dayEvents = events.filter(e => 
-                    (e.type === 'team' && e.date === formattedDate) || 
+                    (isWorkEvent(e) && e.date === formattedDate) || 
                     (e.type === 'vacation' && e.startDate === formattedDate) // Показываем только начало отпуска
                 );
                 
@@ -2075,45 +2233,252 @@
             renderCalendar();
         }
         
-        // События
-        function changeEventType() {
-            const type = document.getElementById('event-type').value;
-            document.getElementById('team-fields').style.display = type === 'team' ? 'block' : 'none';
-            document.getElementById('vacation-fields').style.display = type === 'vacation' ? 'block' : 'none';
+        // --- EVENT HANDLING LOGIC ---
+
+        function openDayDetailsModal(date) {
+            selectedDate = date;
+            const titleEl = document.getElementById('day-details-title');
+            const listEl = document.getElementById('day-events-list');
+            
+            titleEl.textContent = `События на ${date.split('-').reverse().join('.')}`;
+            
+            const dayEvents = events.filter(e => 
+                (isWorkEvent(e) && e.date === date) ||
+                (e.type === 'vacation' && e.startDate <= date && e.endDate >= date)
+            );
+
+            if (dayEvents.length === 0) {
+                listEl.innerHTML = '<div style="color: #6c757d; text-align: center; padding: 20px 0;">Нет событий на этот день.</div>';
+            } else {
+                listEl.innerHTML = dayEvents.map(event => {
+                    let eventInfoHtml = '';
+                    let actionsHtml = '';
+
+                    if (currentUser.role === 'manager') {
+                        actionsHtml = `
+                            <div class="day-event-actions">
+                                <button class="button-secondary" onclick="editEvent(${event.id})">Изм.</button>
+                                <button class="button-danger" onclick="deleteEvent(${event.id})">Удл.</button>
+                            </div>
+                        `;
+                    } else if (currentUser.role === 'employee' && isWorkEvent(event)) {
+                         actionsHtml = `
+                            <div class="day-event-actions">
+                                <button class="button-secondary" onclick="openEventDetails(${event.id})">Детали</button>
+                            </div>
+                        `;
+                    }
+                    
+                    if (event.type === 'vacation') {
+                        eventInfoHtml = `
+                            <div class="day-event-item vacation">
+                                <div class="day-event-info">
+                                    <strong>🏖️ Отпуск</strong>
+                                    <p>${getEmployeeName(event.employeeId)}</p>
+                                    <p style="font-size: 12px; color: #6c757d;">${event.startDate.split('-').reverse().join('.')} - ${event.endDate.split('-').reverse().join('.')}</p>
+                                </div>
+                                ${actionsHtml}
+                            </div>`;
+                    } else if (isWorkEvent(event)) {
+                        const teamColor = getTeamColor(event.teamId);
+                        const eventTitle = event.type === 'drilling' ? '⛏️ Бурение' : '🔧 Монтаж';
+                        eventInfoHtml = `
+                            <div class="day-event-item" style="border-left-color: ${teamColor}">
+                                <div class="day-event-info">
+                                    <strong>${eventTitle}: ${getTeamName(event.teamId)}</strong>
+                                    <p>${event.address}</p>
+                                </div>
+                                ${actionsHtml}
+                            </div>`;
+                    }
+                    
+                    return eventInfoHtml;
+                }).join('');
+            }
+            
+            // Show/hide buttons based on role
+            document.getElementById('add-event-from-day-btn').style.display = currentUser.role === 'manager' ? 'inline-block' : 'none';
+            document.getElementById('request-vacation-from-day-btn').style.display = currentUser.role === 'employee' ? 'inline-block' : 'none';
+
+            openModal('day-details-modal');
         }
-        
-        function openEventModal(date) {
-            selectedDate = date || formatDate(new Date());
+
+        function addEventFromDayView() {
+            closeModal('day-details-modal');
+            openEventModal(selectedDate);
+        }
+
+        function requestVacationFromDayView() {
+            closeModal('day-details-modal');
+            openVacationRequestModal(selectedDate);
+        }
+
+        function editEvent(eventId) {
+            const eventToEdit = events.find(e => e.id === eventId);
+            if (!eventToEdit) return;
+            closeModal('day-details-modal');
+            openEventModal(eventToEdit.date || eventToEdit.startDate, eventId);
+        }
+
+        function deleteEvent(eventId) {
+            if (!confirm('Вы уверены, что хотите удалить это событие?')) return;
             
-            document.getElementById('event-modal-title').textContent = date ? 
-                `Добавить событие на ${date.split('-').reverse().join('.')}` : 
-                'Добавить событие';
+            events = events.filter(e => e.id !== eventId);
             
-            // Сброс формы
-            document.getElementById('event-address').value = '';
-            document.getElementById('event-equipment').value = '';
+            closeModal('day-details-modal');
+            renderCalendar();
+            showNotification('Событие удалено');
+        }
+
+        function openEventModal(date, eventId = null) {
+            const isEditing = eventId !== null;
+            const event = isEditing ? events.find(e => e.id === eventId) : null;
             
-            selectEventType(document.querySelector('.event-type-selector .event-type-option'), 'team');
+            selectedDate = date;
+            document.getElementById('event-id').value = isEditing ? eventId : '';
+            document.getElementById('event-modal-title').textContent = isEditing ? 'Редактировать событие' : 'Добавить событие';
+            document.getElementById('save-event-btn').textContent = isEditing ? 'Сохранить изменения' : 'Сохранить';
             
-            renderTeamChips();
             renderEmployeeChips();
             
-            const today = date || formatDate(new Date());
-            document.getElementById('event-start-date').value = today;
-            document.getElementById('event-end-date').value = today;
+            if (isEditing) {
+                const eventType = event.type;
+                selectEventType(document.querySelector(`.event-type-option[onclick*="'${eventType}'"]`), eventType);
+                
+                if (isWorkEvent(event)) {
+                    document.getElementById('event-date').value = event.date;
+                    document.getElementById('event-address').value = event.address;
+                    renderEquipmentList(event.equipment || []);
+                    renderTeamChipsForEvent(eventType, event.teamId);
+                } else if (event.type === 'vacation') {
+                    document.getElementById('event-start-date').value = event.startDate;
+                    document.getElementById('event-end-date').value = event.endDate;
+                    selectEmployee(document.querySelector(`.chip-option[onclick*="selectEmployee(this, ${event.employeeId})"]`), event.employeeId);
+                }
+            } else {
+                // Reset form for new event
+                document.getElementById('event-address').value = '';
+                renderEquipmentList([]);
+                selectEventType(document.querySelector('.event-type-selector .event-type-option'), 'drilling');
+                
+                const today = date || formatDate(new Date());
+                document.getElementById('event-date').value = today;
+                document.getElementById('event-start-date').value = today;
+                document.getElementById('event-end-date').value = today;
+            }
             
             openModal('event-modal');
         }
         
+        function saveEvent() {
+            const eventId = parseInt(document.getElementById('event-id').value);
+            const isEditing = !isNaN(eventId);
+            
+            const type = document.getElementById('event-type').value;
+            let newEventData;
+
+            if (isWorkEvent({type})) {
+                const date = document.getElementById('event-date').value;
+                const address = document.getElementById('event-address').value.trim();
+                const teamId = parseInt(document.getElementById('event-team').value);
+                
+                const equipmentRows = document.querySelectorAll('#equipment-list .equipment-row');
+                const equipment = Array.from(equipmentRows).map(row => {
+                    const pipeId = parseInt(row.querySelector('select').value);
+                    const meters = parseInt(row.querySelector('input').value);
+                    return { pipeId, meters };
+                }).filter(item => !isNaN(item.pipeId) && !isNaN(item.meters) && item.meters > 0);
+
+                if (!date || !address || !teamId) {
+                    showNotification('Заполните дату, адрес и выберите бригаду', 'error');
+                    return;
+                }
+                newEventData = { type, date, address, teamId, equipment, comments: isEditing ? events.find(e=>e.id===eventId).comments : [] };
+            } else if (type === 'vacation') {
+                const startDate = document.getElementById('event-start-date').value;
+                const endDate = document.getElementById('event-end-date').value;
+                const employeeId = parseInt(document.getElementById('event-employee').value);
+                
+                if (!startDate || !endDate || !employeeId) {
+                    showNotification('Заполните даты и выберите сотрудника', 'error');
+                    return;
+                }
+                newEventData = { type: 'vacation', startDate, endDate, employeeId, comments: isEditing ? events.find(e=>e.id===eventId).comments : [] };
+            }
+
+            if (isEditing) {
+                const eventIndex = events.findIndex(e => e.id === eventId);
+                if (eventIndex > -1) {
+                    events[eventIndex] = { ...events[eventIndex], ...newEventData };
+                    showNotification('Событие обновлено');
+                }
+            } else {
+                events.push({ id: Date.now(), ...newEventData });
+                showNotification('Событие добавлено');
+            }
+            
+            closeModal('event-modal');
+            renderCalendar();
+        }
+        
+        // --- Equipment List Functions ---
+        function addPipeRow() {
+            const list = document.getElementById('equipment-list');
+            const newRow = document.createElement('div');
+            newRow.className = 'equipment-row';
+            
+            const pipeOptions = pipeTypes.map(p => `<option value="${p.id}">${p.name}</option>`).join('');
+
+            newRow.innerHTML = `
+                <select>${pipeOptions}</select>
+                <input type="number" placeholder="Метры" min="1">
+                <button class="remove-btn" onclick="removePipeRow(this)">×</button>
+            `;
+            list.appendChild(newRow);
+        }
+
+        function removePipeRow(button) {
+            button.parentElement.remove();
+        }
+
+        function renderEquipmentList(equipmentData) {
+            const list = document.getElementById('equipment-list');
+            list.innerHTML = '';
+            if (!equipmentData || equipmentData.length === 0) {
+                addPipeRow(); // Add one empty row by default
+            } else {
+                equipmentData.forEach(item => {
+                    const newRow = document.createElement('div');
+                    newRow.className = 'equipment-row';
+                    const pipeOptions = pipeTypes.map(p => `<option value="${p.id}" ${p.id === item.pipeId ? 'selected' : ''}>${p.name}</option>`).join('');
+                    newRow.innerHTML = `
+                        <select>${pipeOptions}</select>
+                        <input type="number" placeholder="Метры" min="1" value="${item.meters}">
+                        <button class="remove-btn" onclick="removePipeRow(this)">×</button>
+                    `;
+                    list.appendChild(newRow);
+                });
+            }
+        }
+        
         // Функции для работы с селекторами-плашками
         function selectEventType(element, type) {
+            if(!element) return;
             document.querySelectorAll('.event-type-option').forEach(opt => opt.classList.remove('selected'));
             element.classList.add('selected');
             document.getElementById('event-type').value = type;
-            changeEventType();
+            
+            const isWork = isWorkEvent({type});
+            document.getElementById('work-fields').style.display = isWork ? 'block' : 'none';
+            document.getElementById('vacation-fields').style.display = type === 'vacation' ? 'block' : 'none';
+
+            if(isWork) {
+                renderTeamChipsForEvent(type);
+            }
         }
         
         function selectChip(element) {
+            if(!element) return;
             const parent = element.parentElement;
             parent.querySelectorAll('.chip-option').forEach(opt => opt.classList.remove('selected'));
             element.classList.add('selected');
@@ -2128,6 +2493,12 @@
             selectChip(element);
             document.getElementById('event-employee').value = employeeId;
         }
+
+        function selectTeamType(element, type) {
+            document.querySelectorAll('.team-type-option').forEach(opt => opt.classList.remove('selected'));
+            element.classList.add('selected');
+            document.getElementById('team-type').value = type;
+        }
         
         function selectRole(element, role) {
             document.querySelectorAll('.role-option').forEach(opt => opt.classList.remove('selected'));
@@ -2141,17 +2512,30 @@
             document.getElementById('inventory-operation-type').value = type;
         }
         
-        function renderTeamChips() {
+        function renderTeamChipsForEvent(eventType, selectedTeamId = null) {
             const container = document.getElementById('team-chips');
-            container.innerHTML = teams.map(team => `
+            const teamType = eventType === 'drilling' ? 'drillers' : 'installers';
+            
+            const filteredTeams = teams.filter(team => team.type === teamType);
+
+            container.innerHTML = filteredTeams.map(team => `
                 <div class="chip-option team-color" style="background-color: ${team.color};" onclick="selectTeam(this, ${team.id})">
                     ${team.name}
                 </div>
             `).join('');
             
-            if (teams.length > 0) {
-                container.children[0]?.classList.add('selected');
-                document.getElementById('event-team').value = teams[0].id;
+            if (filteredTeams.length > 0) {
+                let teamToSelect = filteredTeams[0];
+                if (selectedTeamId) {
+                    const foundTeam = filteredTeams.find(t => t.id === selectedTeamId);
+                    if(foundTeam) teamToSelect = foundTeam;
+                }
+                const chipToSelect = container.querySelector(`.chip-option[onclick*="selectTeam(this, ${teamToSelect.id})"]`);
+                chipToSelect?.classList.add('selected');
+                document.getElementById('event-team').value = teamToSelect.id;
+            } else {
+                 container.innerHTML = `<i style="color: #6c757d;">Нет доступных бригад этого типа.</i>`;
+                 document.getElementById('event-team').value = '';
             }
         }
         
@@ -2169,50 +2553,21 @@
             }
         }
         
-        function saveEvent() {
-            const type = document.getElementById('event-type').value;
-            
-            if (type === 'team') {
-                const address = document.getElementById('event-address').value.trim();
-                const teamId = parseInt(document.getElementById('event-team').value);
-                const equipment = document.getElementById('event-equipment').value.trim();
-                
-                if (!address || !teamId || !equipment) {
-                    showNotification('Заполните все поля', 'error');
-                    return;
-                }
-                
-                events.push({ id: Date.now(), type: 'team', date: selectedDate, address, teamId, equipment, comments: [] });
-            } else {
-                const startDate = document.getElementById('event-start-date').value;
-                const endDate = document.getElementById('event-end-date').value;
-                const employeeId = parseInt(document.getElementById('event-employee').value);
-                
-                if (!startDate || !endDate || !employeeId) {
-                    showNotification('Заполните все поля', 'error');
-                    return;
-                }
-                
-                events.push({ id: Date.now(), type: 'vacation', startDate, endDate, employeeId, comments: [] });
-            }
-            
-            closeModal('event-modal');
-            renderCalendar();
-            showNotification('Событие добавлено');
-        }
-        
         function openEventDetails(eventId) {
             selectedEventForDetails = events.find(e => e.id === eventId);
             if (!selectedEventForDetails) return;
             
             let content = '';
-            if (selectedEventForDetails.type === 'team') {
+            if (isWorkEvent(selectedEventForDetails)) {
+                const eventTitle = selectedEventForDetails.type === 'drilling' ? 'Бурение' : 'Монтаж';
+                const equipmentList = selectedEventForDetails.equipment.map(item => `<li>${getPipeTypeName(item.pipeId)} - ${item.meters} м.</li>`).join('');
                 content = `
-                    <p><strong>Тип:</strong> Заезд бригады</p>
+                    <p><strong>Тип:</strong> ${eventTitle}</p>
                     <p><strong>Дата:</strong> ${selectedEventForDetails.date.split('-').reverse().join('.')}</p>
                     <p><strong>Бригада:</strong> ${getTeamName(selectedEventForDetails.teamId)}</p>
                     <p><strong>Адрес:</strong> ${selectedEventForDetails.address}</p>
-                    <p><strong>Оборудование:</strong> ${selectedEventForDetails.equipment}</p>
+                    <p><strong>Оборудование:</strong></p>
+                    <ul style="margin-top: 5px; padding-left: 20px;">${equipmentList || '<li>Не указано</li>'}</ul>
                 `;
             } else {
                 content = `
@@ -2226,6 +2581,9 @@
             document.getElementById('event-details-content').innerHTML = content;
             document.getElementById('comment-section').style.display = 'block';
             
+            // Hide comment form for employees
+            document.getElementById('add-comment-form').style.display = currentUser.role === 'manager' ? 'flex' : 'none';
+
             renderComments();
             openModal('event-details-modal');
         }
@@ -2255,9 +2613,8 @@
                 '<div style="color: #6c757d; font-style: italic;">Нет комментариев</div>';
         }
         
-        // Заявки на отпуск и материалы... (код без изменений)
-        function openVacationRequestModal() {
-            document.getElementById('vacation-start-date').value = '';
+        function openVacationRequestModal(startDate = null) {
+            document.getElementById('vacation-start-date').value = startDate || '';
             document.getElementById('vacation-end-date').value = '';
             document.getElementById('vacation-reason').value = '';
             openModal('vacation-request-modal');
@@ -2297,14 +2654,13 @@
                         <p style="margin: 4px 0;"><strong>Сотрудник:</strong> ${request.userName}</p>
                         <p style="margin: 4px 0;"><strong>Материал:</strong> ${getPipeTypeName(request.itemId)}</p>
                         <p style="margin: 4px 0;"><strong>Количество:</strong> ${request.amount}</p>
-                        <p style="margin: 4px 0;"><strong>Причина:</strong> ${request.reason}</p>
                     `;
                 }
 
                 const managerControls = (currentUser.role === 'manager' && request.status === 'pending') ? `
                     <div class="button-group" style="margin-top: 10px;">
-                        <button onclick="handleRequest(${request.id}, true)" style="padding: 6px 12px; font-size: 12px;">Одобрить</button>
-                        <button onclick="handleRequest(${request.id}, false)" class="button-danger" style="padding: 6px 12px; font-size: 12px;">Отклонить</button>
+                        <button onclick="handleRequest(${request.id}, true)" style="padding: 6px 12px; font-size: 12px; min-height: 38px;">Одобрить</button>
+                        <button onclick="handleRequest(${request.id}, false)" class="button-danger" style="padding: 6px 12px; font-size: 12px; min-height: 38px;">Отклонить</button>
                     </div>` : '';
 
                 return `
@@ -2353,41 +2709,43 @@
             const itemName = itemId === 0 ? "Дизельное топливо" : getPipeTypeName(itemId);
             document.getElementById('inventory-request-title').textContent = `Запрос: ${itemName}`;
             document.getElementById('request-amount').value = '';
-            document.getElementById('request-reason').value = '';
             openModal('inventory-request-modal');
         }
 
         function submitInventoryRequest() {
             const amount = parseInt(document.getElementById('request-amount').value);
-            const reason = document.getElementById('request-reason').value.trim();
             
-            if (!amount || amount <= 0 || !reason) {
-                showNotification('Заполните все поля корректно', 'error');
+            if (!amount || amount <= 0) {
+                showNotification('Укажите корректное количество', 'error');
                 return;
             }
             
-            requests.push({ id: Date.now(), type: 'inventory', userId: currentUser.username, userName: currentUser.name, itemId: selectedInventoryItem, amount, reason, status: 'pending', createdAt: formatDate(new Date()) });
+            requests.push({ id: Date.now(), type: 'inventory', userId: currentUser.username, userName: currentUser.name, itemId: selectedInventoryItem, amount, status: 'pending', createdAt: formatDate(new Date()) });
             closeModal('inventory-request-modal');
             showNotification('Заявка на материалы отправлена');
         }
 
-        // Бригады и сотрудники... (код без изменений)
+        // Бригады и сотрудники
         function renderTeams() {
             document.getElementById('teams-list').innerHTML = teams.map(team => {
                 const teamEmployeesHtml = employees.filter(e => e.teamId === team.id).map(employee => `
-                    <span class="employee-chip" style="background-color: ${team.color}20; color: ${team.color}; border: 1px solid ${team.color}40;">
+                    <span class="employee-chip" style="background-color: ${team.color}80; color: #333; border: 1px solid ${team.color};">
                         ${employee.name}
                         <span onclick="removeEmployeeFromTeam(${employee.id}, event)" style="margin-left: 5px; cursor: pointer; color: #ff3b30;">×</span>
                     </span>
                 `).join('');
                 
+                const teamTypeLabel = team.type === 'drillers' ? 'Бурильщики' : 'Монтажники';
                 const unassignedEmployeesOptions = employees.filter(e => !e.teamId).map(e => `<option value="${e.id}">${e.name}</option>`).join('');
 
                 return `
                     <div class="card">
-                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px;">
-                            <h3 style="margin: 0;">${team.name}</h3>
-                            <div style="width: 20px; height: 20px; border-radius: 50%; background-color: ${team.color};"></div>
+                        <div style="display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 15px;">
+                            <div>
+                                <h3 style="margin: 0 0 5px 0;">${team.name}</h3>
+                                <span style="font-size: 13px; color: #fff; background: #6c757d; padding: 3px 8px; border-radius: 10px;">${teamTypeLabel}</span>
+                            </div>
+                            <div style="width: 20px; height: 20px; border-radius: 50%; background-color: ${team.color}; flex-shrink: 0;"></div>
                         </div>
                         <div style="margin-bottom: 15px; display: flex; flex-wrap: wrap; gap: 5px;">${teamEmployeesHtml || '<i style="color: #6c757d;">Нет сотрудников</i>'}</div>
                         <div class="button-group" style="align-items: stretch;">
@@ -2426,7 +2784,8 @@
 
         function openTeamModal() {
             document.getElementById('team-name').value = '';
-            selectTeamColor(document.querySelector('#color-chips .chip-option'), '#667eea');
+            selectTeamColor(document.querySelector('#color-chips .chip-option'), '#a7c7e7');
+            selectTeamType(document.querySelector('.team-type-selector .team-type-option'), 'drillers');
             openModal('team-modal');
         }
 
@@ -2439,8 +2798,9 @@
         function saveTeam() {
             const name = document.getElementById('team-name').value.trim();
             const color = document.getElementById('team-color').value;
+            const type = document.getElementById('team-type').value;
             if (!name) return showNotification('Введите название бригады', 'error');
-            teams.push({ id: Date.now(), name, color });
+            teams.push({ id: Date.now(), name, color, type });
             closeModal('team-modal');
             renderTeams();
             showNotification('Бригада добавлена');
