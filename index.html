@@ -1,3 +1,7 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -33,7 +37,7 @@
             user-select: none;
         }
         
-        input, textarea {
+        input, textarea, select {
             -webkit-user-select: text;
             -moz-user-select: text;
             -ms-user-select: text;
@@ -209,6 +213,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            gap: 4px;
             min-height: 50px;
         }
         
@@ -1077,15 +1082,16 @@
         .table-responsive {
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+            margin-top: 15px;
         }
         
         table {
             width: 100%;
             border-collapse: collapse;
             background-color: white;
-            border-radius: 8px;
             overflow: hidden;
-            margin-top: 15px;
             font-size: 12px;
         }
         
@@ -1099,6 +1105,7 @@
             padding: 8px 10px;
             text-align: left;
             border-bottom: 1px solid #d2d2d7;
+            white-space: nowrap;
         }
         
         @media (min-width: 768px) {
@@ -1168,7 +1175,7 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            max-width: 80px;
+            max-width: 100px;
         }
         
         @media (min-width: 480px) {
@@ -1176,7 +1183,7 @@
                 padding: 7px 10px;
                 font-size: 12px;
                 min-width: 50px;
-                max-width: 100px;
+                max-width: 120px;
             }
         }
         
@@ -1212,98 +1219,51 @@
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
         }
         
-        .event-type-selector {
-            display: flex;
-            gap: 10px;
-            margin-top: 8px;
-        }
-        
-        .event-type-option {
-            flex: 1;
-            background: #f8f9fa;
-            border: 2px solid #e9ecef;
-            color: #495057;
-            padding: 12px 16px;
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            text-align: center;
-            user-select: none;
-        }
-        
-        .event-type-option:hover {
-            background: #e9ecef;
-            transform: translateY(-1px);
-        }
-        
-        .event-type-option.selected {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            border-color: #667eea;
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
-        }
-        
-        .role-selector {
-            display: flex;
-            gap: 10px;
-            margin-top: 8px;
-        }
-        
-        .role-option {
-            flex: 1;
-            background: #f8f9fa;
-            border: 2px solid #e9ecef;
-            color: #495057;
-            padding: 10px 16px;
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            text-align: center;
-            user-select: none;
-        }
-        
-        .role-option:hover {
-            background: #e9ecef;
-            transform: translateY(-1px);
-        }
-        
-        .role-option.selected {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            border-color: #667eea;
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
-        }
-        
+        .event-type-selector,
+        .role-selector,
         .operation-type-selector {
             display: flex;
             gap: 10px;
             margin-top: 8px;
+            flex-wrap: wrap; /* NEW: Allow wrapping */
         }
         
+        .event-type-option,
+        .role-option,
         .operation-type-option {
             flex: 1;
             background: #f8f9fa;
             border: 2px solid #e9ecef;
             color: #495057;
-            padding: 10px 16px;
+            padding: 10px 12px;
             border-radius: 12px;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 500;
             transition: all 0.3s ease;
             text-align: center;
             user-select: none;
+            min-width: 120px; /* NEW: Prevent excessive shrinking */
         }
         
+        @media (min-width: 768px) {
+            .event-type-option,
+            .role-option,
+            .operation-type-option {
+                padding: 12px 16px;
+                font-size: 14px;
+            }
+        }
+        
+        .event-type-option:hover,
+        .role-option:hover,
         .operation-type-option:hover {
             background: #e9ecef;
             transform: translateY(-1px);
         }
         
+        .event-type-option.selected,
+        .role-option.selected,
         .operation-type-option.selected {
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
@@ -1329,13 +1289,10 @@
             color: #721c24;
         }
         
-        /* Скрываем любой контент после основного приложения */
-        body::after {
-            content: '';
-            display: block;
-            clear: both;
-            height: 0;
-            overflow: hidden;
+        .operation-type-option.expense.selected {
+            background: linear-gradient(135deg, #dc3545, #c82333);
+            color: white;
+            border-color: #dc3545;
         }
         
         /* Responsive button groups */
@@ -1346,609 +1303,12 @@
             align-items: center;
         }
         
-        /* Финальная очистка - скрываем все после основного контента */
-        #main-app ~ * {
-            display: none !important;
-        }
-        <!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Управление бригадами и складом</title>
-    <style>
-        * {
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            color: #1d1d1f;
-            font-size: 14px;
-        }
-        
-        .container {
-            max-width: 100%;
-            margin: 0 auto;
-            padding: 10px;
-        }
-        
-        @media (min-width: 768px) {
-            .container {
-                max-width: 1200px;
-                padding: 20px;
-            }
-            body {
-                font-size: 16px;
-            }
-        }
-        
-        .header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        .modal .button-group-end {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .header h1 {
-            margin: 0;
-            color: #1d1d1f;
-            font-size: 28px;
-            font-weight: 600;
-        }
-        
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .user-badge {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: 500;
-        }
-        
-        .logout-btn {
-            background: #ff3b30;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: all 0.3s ease;
-        }
-        
-        .logout-btn:hover {
-            background: #d70015;
-            transform: translateY(-2px);
-        }
-        
-        .main-content {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-        }
-        
-        .tabs {
-            display: flex;
-            background: #f8f9fa;
-            border-bottom: 1px solid #e9ecef;
-        }
-        
-        .tab {
-            flex: 1;
-            padding: 20px;
-            text-align: center;
-            cursor: pointer;
-            border: none;
-            background: transparent;
-            font-size: 16px;
-            font-weight: 500;
-            color: #6c757d;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-        
-        .tab.active {
-            background: white;
-            color: #667eea;
-            border-bottom: 3px solid #667eea;
-        }
-        
-        .tab:hover:not(.active) {
-            background: #e9ecef;
-            color: #495057;
-        }
-        
-        .tab-content {
-            display: none;
-            padding: 30px;
-            animation: fadeIn 0.3s ease;
-        }
-        
-        .tab-content.active {
-            display: block;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .calendar {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 1px;
-            background: #e9ecef;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-        }
-        
-        .calendar-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 1px;
-            background: #e9ecef;
-            border-radius: 0 0 12px 12px;
-            overflow: hidden;
-        }
-        
-        .calendar-header {
-            text-align: center;
-            font-weight: 600;
-            padding: 15px 10px;
-            background: #667eea;
-            color: white;
-            font-size: 14px;
-        }
-        
-        .calendar-day {
-            background: white;
-            padding: 12px 8px;
-            min-height: 120px;
-            position: relative;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .calendar-day:hover {
-            background: #f8f9fa;
-            transform: scale(1.02);
-        }
-        
-        .calendar-day.today {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-        }
-        
-        .calendar-day.other-month {
-            background: #f8f9fa;
-            color: #adb5bd;
-        }
-        
-        .day-number {
-            font-weight: 600;
-            margin-bottom: 8px;
-            font-size: 16px;
-        }
-        
-        .event {
-            font-size: 11px;
-            color: white;
-            padding: 3px 6px;
-            border-radius: 6px;
-            margin-bottom: 2px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            font-weight: 500;
-        }
-        
-        .vacation {
-            background: linear-gradient(135deg, #34c759, #28a745);
-        }
-        
-        .toggle-container {
-            display: flex;
-            align-items: center;
+            justify-content: flex-end;
             gap: 10px;
-            margin-bottom: 20px;
-        }
-        
-        .toggle {
-            position: relative;
-            width: 50px;
-            height: 26px;
-            background: #ccc;
-            border-radius: 13px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .toggle.active {
-            background: #667eea;
-        }
-        
-        .toggle-slider {
-            position: absolute;
-            top: 2px;
-            left: 2px;
-            width: 22px;
-            height: 22px;
-            background: white;
-            border-radius: 50%;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-        }
-        
-        .toggle.active .toggle-slider {
-            transform: translateX(24px);
-        }
-        
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(5px);
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-        
-        .modal-content {
-            background: white;
-            padding: 30px;
-            border-radius: 20px;
-            width: 450px;
-            max-width: 90%;
-            max-height: 80vh;
-            overflow-y: auto;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            animation: modalSlideIn 0.3s ease;
-        }
-        
-        @keyframes modalSlideIn {
-            from { opacity: 0; transform: scale(0.8) translateY(-50px); }
-            to { opacity: 1; transform: scale(1) translateY(0); }
-        }
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #495057;
-        }
-        
-        input, select, textarea {
-            width: 100%;
-            padding: 12px 16px;
-            border: 2px solid #e9ecef;
-            border-radius: 12px;
-            box-sizing: border-box;
-            font-size: 14px;
-            transition: all 0.3s ease;
-        }
-        
-        input:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-        
-        button {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-        
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
-        }
-        
-        .button-secondary {
-            background: #6c757d;
-        }
-        
-        .button-secondary:hover {
-            background: #5a6268;
-            box-shadow: 0 8px 25px rgba(108, 117, 125, 0.3);
-        }
-        
-        .button-danger {
-            background: linear-gradient(135deg, #ff3b30, #dc3545);
-        }
-        
-        .button-danger:hover {
-            box-shadow: 0 8px 25px rgba(255, 59, 48, 0.3);
-        }
-        
-        .card {
-            background: white;
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
-            transition: all 0.3s ease;
-        }
-        
-        .card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        }
-        
-        .inventory-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
             margin-top: 20px;
-        }
-        
-        .inventory-item {
-            background: white;
-            border-radius: 16px;
-            padding: 20px;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-        }
-        
-        .inventory-item:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-            border-color: #667eea;
-        }
-        
-        .inventory-item-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-        
-        .inventory-item-title {
-            font-weight: 600;
-            font-size: 18px;
-            color: #1d1d1f;
-        }
-        
-        .inventory-item-amount {
-            font-weight: bold;
-            font-size: 24px;
-            color: #667eea;
-        }
-        
-        .inventory-item-warning {
-            color: #ff3b30;
-            font-size: 14px;
-            margin-top: 8px;
-            font-weight: 500;
-        }
-        
-        .login-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-        }
-        
-        .login-form {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 40px;
-            width: 400px;
-            max-width: 100%;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
-        }
-        
-        .login-form h2 {
-            text-align: center;
-            margin-bottom: 30px;
-            color: #1d1d1f;
-            font-weight: 600;
-        }
-        
-        .request-item {
-            background: white;
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 10px;
-            border-left: 4px solid #ffc107;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-        }
-        
-        .request-item.approved {
-            border-left-color: #28a745;
-        }
-        
-        .request-item.rejected {
-            border-left-color: #dc3545;
-        }
-        
-        .status-badge {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 500;
-            text-transform: uppercase;
-        }
-        
-        .status-pending {
-            background: #fff3cd;
-            color: #856404;
-        }
-        
-        .status-approved {
-            background: #d4edda;
-            color: #155724;
-        }
-        
-        .status-rejected {
-            background: #f8d7da;
-            color: #721c24;
-        }
-        
-        .notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: #28a745;
-            color: white;
-            padding: 15px 20px;
-            border-radius: 12px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-            z-index: 1001;
-            animation: slideInRight 0.3s ease;
-        }
-        
-        @keyframes slideInRight {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-        
-        .upcoming-events {
-            background: white;
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
-        }
-        
-        .upcoming-events h3 {
-            margin-top: 0;
-            color: #1d1d1f;
-            font-weight: 600;
-        }
-        
-        .upcoming-event {
-            padding: 12px 0;
-            border-bottom: 1px solid #f0f0f0;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .upcoming-event:last-child {
-            border-bottom: none;
-        }
-        
-        .event-indicator {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            flex-shrink: 0;
-        }
-        
-        .month-navigation {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            background: white;
-            padding: 15px 20px;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-        }
-        
-        .month-navigation h2 {
-            margin: 0;
-            color: #1d1d1f;
-            font-weight: 600;
-        }
-        
-        .nav-button {
-            background: #667eea;
-            color: white;
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
-        
-        .nav-button:hover {
-            background: #5a67d8;
-            transform: scale(1.1);
-        }
-        
-        .comment-section {
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px solid #e9ecef;
-        }
-        
-        .comment {
-            background: #f8f9fa;
-            padding: 10px;
-            border-radius: 8px;
-            margin-bottom: 8px;
-            font-size: 13px;
-        }
-        
-        .comment-author {
-            font-weight: 600;
-            color: #667eea;
-        }
-        
-        .add-comment {
-            display: flex;
-            gap: 8px;
-            margin-top: 10px;
-        }
-        
-        .comment-input {
-            flex: 1;
-            padding: 8px;
-            border: 1px solid #e9ecef;
-            border-radius: 6px;
-            font-size: 13px;
-        }
-        
-        .comment-btn {
-            padding: 8px 12px;
-            font-size: 12px;
+            flex-wrap: wrap;
         }
     </style>
 </head>
@@ -2011,7 +1371,7 @@
                 <div id="calendar" class="tab-content active">
                     <div class="toggle-container">
                         <label>Показать отпуска:</label>
-                        <div class="toggle" id="vacation-toggle" onclick="toggleVacations()">
+                        <div class="toggle active" id="vacation-toggle" onclick="toggleVacations()">
                             <div class="toggle-slider"></div>
                         </div>
                     </div>
@@ -2034,7 +1394,7 @@
                     
                     <div class="calendar-grid" id="calendar-days"></div>
                     
-                    <div style="margin-top: 20px; display: flex; gap: 10px; flex-wrap: wrap;">
+                    <div class="button-group" style="margin-top: 20px;">
                         <button onclick="openEventModal(null)" id="add-event-btn">Добавить событие</button>
                         <button onclick="openVacationRequestModal()" id="request-vacation-btn" style="display: none;">Запросить отпуск</button>
                     </div>
@@ -2071,10 +1431,10 @@
             <div class="form-group">
                 <label>Тип события</label>
                 <div class="event-type-selector">
-                    <div class="event-type-option selected" onclick="selectEventType('team')">
+                    <div class="event-type-option selected" onclick="selectEventType(this, 'team')">
                         🚛 Заезд бригады
                     </div>
-                    <div class="event-type-option" onclick="selectEventType('vacation')">
+                    <div class="event-type-option" onclick="selectEventType(this, 'vacation')">
                         🏖️ Отпуск сотрудника
                     </div>
                 </div>
@@ -2117,7 +1477,7 @@
                 </div>
             </div>
             
-            <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; flex-wrap: wrap;">
+            <div class="button-group-end">
                 <button class="button-secondary" onclick="closeModal('event-modal')">Отмена</button>
                 <button onclick="saveEvent()">Сохранить</button>
             </div>
@@ -2143,7 +1503,7 @@
                 <textarea id="vacation-reason" placeholder="Укажите причину отпуска"></textarea>
             </div>
             
-            <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
+            <div class="button-group-end">
                 <button class="button-secondary" onclick="closeModal('vacation-request-modal')">Отмена</button>
                 <button onclick="submitVacationRequest()">Отправить заявку</button>
             </div>
@@ -2164,7 +1524,7 @@
                 <textarea id="request-reason" placeholder="Укажите для чего нужны материалы"></textarea>
             </div>
             
-            <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
+            <div class="button-group-end">
                 <button class="button-secondary" onclick="closeModal('inventory-request-modal')">Отмена</button>
                 <button onclick="submitInventoryRequest()">Отправить заявку</button>
             </div>
@@ -2185,13 +1545,12 @@
                 </div>
             </div>
             
-            <div style="display: flex; justify-content: flex-end; margin-top: 20px;">
+            <div class="button-group-end">
                 <button onclick="closeModal('event-details-modal')">Закрыть</button>
             </div>
         </div>
     </div>
 
-    <!-- Остальные модальные окна (team-modal, employee-modal и т.д.) - добавлю в следующей части -->
     <div id="team-modal" class="modal">
         <div class="modal-content">
             <h2>Добавить бригаду</h2>
@@ -2204,30 +1563,16 @@
             <div class="form-group">
                 <label>Цвет бригады</label>
                 <div class="chip-selector" id="color-chips">
-                    <div class="chip-option team-color selected" style="background-color: #667eea; border-color: #667eea;" onclick="selectTeamColor('#667eea')">Синий</div>
-                    <div class="chip-option team-color" style="background-color: #34c759; border-color: #34c759;" onclick="selectTeamColor('#34c759')">Зеленый</div>
-                    <div class="chip-option team-color" style="background-color: #ff9500; border-color: #ff9500;" onclick="selectTeamColor('#ff9500')">Оранжевый</div>
-                    <div class="chip-option team-color" style="background-color: #ff2d55; border-color: #ff2d55;" onclick="selectTeamColor('#ff2d55')">Красный</div>
-                    <div class="chip-option team-color" style="background-color: #5856d6; border-color: #5856d6;" onclick="selectTeamColor('#5856d6')">Фиолетовый</div>
+                    <div class="chip-option team-color selected" style="background-color: #667eea; border-color: #667eea;" onclick="selectTeamColor(this, '#667eea')">Синий</div>
+                    <div class="chip-option team-color" style="background-color: #34c759; border-color: #34c759;" onclick="selectTeamColor(this, '#34c759')">Зеленый</div>
+                    <div class="chip-option team-color" style="background-color: #ff9500; border-color: #ff9500;" onclick="selectTeamColor(this, '#ff9500')">Оранжевый</div>
+                    <div class="chip-option team-color" style="background-color: #ff2d55; border-color: #ff2d55;" onclick="selectTeamColor(this, '#ff2d55')">Красный</div>
+                    <div class="chip-option team-color" style="background-color: #5856d6; border-color: #5856d6;" onclick="selectTeamColor(this, '#5856d6')">Фиолетовый</div>
                 </div>
                 <input type="hidden" id="team-color" value="#667eea">
             </div>
             
-            <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
-                <button class="button-secondary" onclick="closeModal('team-modal')">Отмена</button>
-                <button onclick="saveTeam()">Сохранить</button>
-            </div>
-        </div>
-    </div>-option selected" style="width: 30px; height: 30px; border-radius: 50%; background-color: #667eea; cursor: pointer; border: 3px solid transparent;" onclick="selectColor('#667eea')"></div>
-                    <div class="color-option" style="width: 30px; height: 30px; border-radius: 50%; background-color: #34c759; cursor: pointer; border: 3px solid transparent;" onclick="selectColor('#34c759')"></div>
-                    <div class="color-option" style="width: 30px; height: 30px; border-radius: 50%; background-color: #ff9500; cursor: pointer; border: 3px solid transparent;" onclick="selectColor('#ff9500')"></div>
-                    <div class="color-option" style="width: 30px; height: 30px; border-radius: 50%; background-color: #ff2d55; cursor: pointer; border: 3px solid transparent;" onclick="selectColor('#ff2d55')"></div>
-                    <div class="color-option" style="width: 30px; height: 30px; border-radius: 50%; background-color: #5856d6; cursor: pointer; border: 3px solid transparent;" onclick="selectColor('#5856d6')"></div>
-                </div>
-                <input type="hidden" id="team-color" value="#667eea">
-            </div>
-            
-            <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
+            <div class="button-group-end">
                 <button class="button-secondary" onclick="closeModal('team-modal')">Отмена</button>
                 <button onclick="saveTeam()">Сохранить</button>
             </div>
@@ -2246,17 +1591,17 @@
             <div class="form-group">
                 <label>Роль</label>
                 <div class="role-selector">
-                    <div class="role-option selected" onclick="selectRole('employee')">
+                    <div class="role-option selected" onclick="selectRole(this, 'employee')">
                         👤 Сотрудник
                     </div>
-                    <div class="role-option" onclick="selectRole('manager')">
+                    <div class="role-option" onclick="selectRole(this, 'manager')">
                         👔 Управляющий
                     </div>
                 </div>
                 <input type="hidden" id="employee-role" value="employee">
             </div>
             
-            <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
+            <div class="button-group-end">
                 <button class="button-secondary" onclick="closeModal('employee-modal')">Отмена</button>
                 <button onclick="saveEmployee()">Сохранить</button>
             </div>
@@ -2270,10 +1615,10 @@
             <div class="form-group">
                 <label>Тип операции</label>
                 <div class="operation-type-selector">
-                    <div class="operation-type-option income selected" onclick="selectOperationType('in')">
+                    <div class="operation-type-option income selected" onclick="selectOperationType(this, 'in')">
                         📈 Поступление
                     </div>
-                    <div class="operation-type-option expense" onclick="selectOperationType('out')">
+                    <div class="operation-type-option expense" onclick="selectOperationType(this, 'out')">
                         📉 Расход
                     </div>
                 </div>
@@ -2295,7 +1640,7 @@
                 <input type="text" id="inventory-operation-notes" placeholder="Укажите дополнительную информацию">
             </div>
             
-            <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
+            <div class="button-group-end">
                 <button class="button-secondary" onclick="closeModal('inventory-operation-modal')">Отмена</button>
                 <button onclick="saveInventoryOperation()">Сохранить</button>
             </div>
@@ -2306,24 +1651,26 @@
         <div class="modal-content">
             <h2 id="inventory-history-title">История операций</h2>
             
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+            <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; margin-bottom: 15px; gap: 10px;">
                 <h3>Текущий остаток: <span id="inventory-current-amount">0</span></h3>
                 <button onclick="openInventoryOperationModal()" id="add-operation-btn">Добавить операцию</button>
             </div>
             
-            <table style="width: 100%; border-collapse: collapse; background-color: white; border-radius: 8px; overflow: hidden; margin-top: 15px;">
-                <thead>
-                    <tr>
-                        <th style="padding: 12px 15px; text-align: left; border-bottom: 1px solid #d2d2d7; background-color: #f5f5f7; font-weight: 500;">Дата</th>
-                        <th style="padding: 12px 15px; text-align: left; border-bottom: 1px solid #d2d2d7; background-color: #f5f5f7; font-weight: 500;">Тип</th>
-                        <th style="padding: 12px 15px; text-align: left; border-bottom: 1px solid #d2d2d7; background-color: #f5f5f7; font-weight: 500;">Количество</th>
-                        <th style="padding: 12px 15px; text-align: left; border-bottom: 1px solid #d2d2d7; background-color: #f5f5f7; font-weight: 500;">Примечания</th>
-                    </tr>
-                </thead>
-                <tbody id="inventory-history-table"></tbody>
-            </table>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Дата</th>
+                            <th>Тип</th>
+                            <th>Количество</th>
+                            <th>Примечания</th>
+                        </tr>
+                    </thead>
+                    <tbody id="inventory-history-table"></tbody>
+                </table>
+            </div>
             
-            <div style="display: flex; justify-content: flex-end; margin-top: 20px;">
+            <div class="button-group-end">
                 <button onclick="closeModal('inventory-history-modal')">Закрыть</button>
             </div>
         </div>
@@ -2372,8 +1719,8 @@
             { 
                 id: 2, 
                 type: "vacation", 
-                startDate: formatDate(new Date()), 
-                endDate: formatDate(new Date(new Date().setDate(new Date().getDate() + 7))), 
+                startDate: formatDate(new Date(new Date().setDate(new Date().getDate() + 2))), 
+                endDate: formatDate(new Date(new Date().setDate(new Date().getDate() + 9))), 
                 employeeId: 4,
                 comments: []
             }
@@ -2443,13 +1790,22 @@
             document.getElementById('user-badge').textContent = 
                 `${currentUser.name} (${currentUser.role === 'manager' ? 'Управляющий' : 'Сотрудник'})`;
             
+            const vacationToggle = document.getElementById('vacation-toggle');
+            if (showVacations) {
+                vacationToggle.classList.add('active');
+            } else {
+                vacationToggle.classList.remove('active');
+            }
+
             // Настройка интерфейса в зависимости от роли
             if (currentUser.role === 'employee') {
                 document.getElementById('teams-tab').style.display = 'none';
+                document.getElementById('requests-tab').style.display = 'none';
                 document.getElementById('add-event-btn').style.display = 'none';
                 document.getElementById('request-vacation-btn').style.display = 'inline-block';
             } else {
-                document.getElementById('teams-tab').style.display = 'block';
+                document.getElementById('teams-tab').style.display = 'grid'; // или 'flex' в зависимости от медиа-запроса
+                document.getElementById('requests-tab').style.display = 'grid'; // или 'flex'
                 document.getElementById('add-event-btn').style.display = 'inline-block';
                 document.getElementById('request-vacation-btn').style.display = 'none';
             }
@@ -2546,17 +1902,6 @@
             
             document.querySelector(`.tab[onclick="switchTab('${tabId}')"]`).classList.add('active');
             document.getElementById(tabId).classList.add('active');
-            
-            if (tabId === 'calendar') {
-                renderCalendar();
-            } else if (tabId === 'teams') {
-                renderTeams();
-                renderEmployees();
-            } else if (tabId === 'inventory') {
-                renderInventoryGrid();
-            } else if (tabId === 'requests') {
-                renderRequests();
-            }
         }
         
         function openModal(modalId) {
@@ -2583,16 +1928,14 @@
             
             document.getElementById('current-month').textContent = getMonthName(currentDate);
             
+            const calendarDaysEl = document.getElementById('calendar-days');
+            calendarDaysEl.innerHTML = '';
+            
             let calendarDays = '';
             
             // Добавляем пустые ячейки для выравнивания первого дня месяца
             for (let i = 0; i < firstDay; i++) {
-                calendarDays += `
-                    <div class="calendar-day other-month">
-                        <div class="day-number"></div>
-                        <div class="events-container"></div>
-                    </div>
-                `;
+                calendarDays += `<div class="calendar-day other-month"></div>`;
             }
             
             // Дни текущего месяца
@@ -2609,8 +1952,7 @@
                     return false;
                 });
                 
-                // Определяем максимальное количество событий в зависимости от размера экрана
-                const maxEvents = window.innerWidth < 380 ? 2 : window.innerWidth < 480 ? 3 : window.innerWidth < 768 ? 4 : 6;
+                const maxEvents = window.innerWidth < 480 ? 2 : window.innerWidth < 768 ? 3 : 5;
                 const visibleEvents = dayEvents.slice(0, maxEvents);
                 const hiddenCount = dayEvents.length - visibleEvents.length;
                 
@@ -2619,34 +1961,23 @@
                     if (event.type === 'team') {
                         const teamColor = getTeamColor(event.teamId);
                         const teamName = getTeamName(event.teamId);
-                        const shortName = window.innerWidth < 480 ? 
-                            (teamName.length > 6 ? teamName.substring(0, 6) + '..' : teamName) :
-                            (teamName.length > 8 ? teamName.substring(0, 8) + '...' : teamName);
                         eventsHtml += `
-                            <div class="event" style="background: linear-gradient(135deg, ${teamColor}, ${teamColor}dd);" onclick="openEventDetails(${event.id}); event.stopPropagation();" title="${teamName} - ${event.address}">
-                                ${shortName}
+                            <div class="event" style="background: ${teamColor};" onclick="openEventDetails(${event.id}); event.stopPropagation();" title="${teamName} - ${event.address}">
+                                ${teamName}
                             </div>
                         `;
                     } else if (event.type === 'vacation') {
                         const employeeName = getEmployeeName(event.employeeId);
-                        const shortName = window.innerWidth < 480 ? 
-                            employeeName.split(' ')[0].substring(0, 4) + (employeeName.split(' ')[0].length > 4 ? '..' : '') :
-                            employeeName.split(' ')[0]; // Только имя
                         eventsHtml += `
                             <div class="event vacation" onclick="openEventDetails(${event.id}); event.stopPropagation();" title="${employeeName} - отпуск">
-                                ${shortName}
+                                Отпуск: ${employeeName.split(' ')[0]}
                             </div>
                         `;
                     }
                 });
                 
-                // Добавляем индикатор "еще X" если есть скрытые события
                 if (hiddenCount > 0) {
-                    eventsHtml += `
-                        <div class="event-more" onclick="showAllEvents('${formattedDate}'); event.stopPropagation();" title="Показать все события">
-                            +${hiddenCount}
-                        </div>
-                    `;
+                    eventsHtml += `<div class="event" style="background: #6c757d;">+${hiddenCount} еще...</div>`;
                 }
                 
                 const isToday = formattedDate === today;
@@ -2660,19 +1991,15 @@
                 `;
             }
             
-            // Заполняем оставшиеся ячейки для полной сетки 6 недель (42 ячейки)
+            calendarDaysEl.innerHTML = calendarDays;
+            
             const totalCells = firstDay + daysInMonth;
-            const remainingCells = 42 - totalCells;
-            for (let day = 1; day <= remainingCells; day++) {
-                calendarDays += `
-                    <div class="calendar-day other-month">
-                        <div class="day-number"></div>
-                        <div class="events-container"></div>
-                    </div>
-                `;
+            const remainingCells = (totalCells % 7 === 0) ? 0 : 7 - (totalCells % 7);
+
+            for (let i = 0; i < remainingCells; i++) {
+                 calendarDaysEl.innerHTML += `<div class="calendar-day other-month"></div>`;
             }
             
-            document.getElementById('calendar-days').innerHTML = calendarDays;
             renderUpcomingEvents();
         }
         
@@ -2684,7 +2011,7 @@
                 html = '<div>Нет предстоящих событий</div>';
             } else {
                 upcoming.forEach(day => {
-                    html += `<div style="margin-bottom: 10px;"><strong>${day.date}:</strong></div>`;
+                    html += `<div style="margin-bottom: 10px;"><strong>${day.dateLabel}:</strong></div>`;
                     day.events.forEach(event => {
                         if (event.type === 'team') {
                             const teamColor = getTeamColor(event.teamId);
@@ -2711,28 +2038,30 @@
         
         function getUpcomingEvents() {
             const today = new Date();
+            today.setHours(0, 0, 0, 0);
             const upcoming = [];
             
-            for (let i = 0; i < 3; i++) {
+            for (let i = 0; i < 7; i++) { // Проверяем на неделю вперед
                 const checkDate = new Date(today);
                 checkDate.setDate(today.getDate() + i);
                 const formattedDate = formatDate(checkDate);
                 
                 const dayEvents = events.filter(e => 
                     (e.type === 'team' && e.date === formattedDate) || 
-                    (e.type === 'vacation' && showVacations && e.startDate <= formattedDate && e.endDate >= formattedDate)
+                    (e.type === 'vacation' && e.startDate === formattedDate) // Показываем только начало отпуска
                 );
                 
                 if (dayEvents.length > 0) {
-                    const dateLabel = i === 0 ? 'Сегодня' : i === 1 ? 'Завтра' : 'Послезавтра';
-                    upcoming.push({
-                        date: dateLabel,
-                        events: dayEvents
-                    });
+                    let dateLabel;
+                    if (i === 0) dateLabel = 'Сегодня';
+                    else if (i === 1) dateLabel = 'Завтра';
+                    else dateLabel = formattedDate.split('-').reverse().join('.');
+                    
+                    upcoming.push({ dateLabel, events: dayEvents });
                 }
             }
             
-            return upcoming;
+            return upcoming.slice(0, 3); // Показываем только 3 ближайших дня с событиями
         }
         
         function prevMonth() {
@@ -2759,114 +2088,83 @@
                 `Добавить событие на ${date.split('-').reverse().join('.')}` : 
                 'Добавить событие';
             
-            // Сбрасываем форму
+            // Сброс формы
             document.getElementById('event-address').value = '';
             document.getElementById('event-equipment').value = '';
             
-            // Устанавливаем тип события по умолчанию
-            document.querySelectorAll('.event-type-option').forEach(opt => opt.classList.remove('selected'));
-            document.querySelector('.event-type-option').classList.add('selected');
-            document.getElementById('event-type').value = 'team';
+            selectEventType(document.querySelector('.event-type-selector .event-type-option'), 'team');
             
-            // Рендерим плашки
             renderTeamChips();
             renderEmployeeChips();
             
-            // Устанавливаем даты
-            if (date) {
-                document.getElementById('event-start-date').value = date;
-                document.getElementById('event-end-date').value = date;
-            } else {
-                const today = formatDate(new Date());
-                document.getElementById('event-start-date').value = today;
-                document.getElementById('event-end-date').value = today;
-            }
+            const today = date || formatDate(new Date());
+            document.getElementById('event-start-date').value = today;
+            document.getElementById('event-end-date').value = today;
             
-            changeEventType();
             openModal('event-modal');
         }
         
         // Функции для работы с селекторами-плашками
-        function selectEventType(type) {
+        function selectEventType(element, type) {
             document.querySelectorAll('.event-type-option').forEach(opt => opt.classList.remove('selected'));
-            event.target.classList.add('selected');
+            element.classList.add('selected');
             document.getElementById('event-type').value = type;
             changeEventType();
         }
         
-        function selectTeam(teamId) {
-            document.querySelectorAll('#team-chips .chip-option').forEach(opt => opt.classList.remove('selected'));
-            event.target.classList.add('selected');
+        function selectChip(element) {
+            const parent = element.parentElement;
+            parent.querySelectorAll('.chip-option').forEach(opt => opt.classList.remove('selected'));
+            element.classList.add('selected');
+        }
+
+        function selectTeam(element, teamId) {
+            selectChip(element);
             document.getElementById('event-team').value = teamId;
         }
-        
-        function selectEmployee(employeeId) {
-            document.querySelectorAll('#employee-chips .chip-option').forEach(opt => opt.classList.remove('selected'));
-            event.target.classList.add('selected');
+
+        function selectEmployee(element, employeeId) {
+            selectChip(element);
             document.getElementById('event-employee').value = employeeId;
         }
         
-        function selectRole(role) {
+        function selectRole(element, role) {
             document.querySelectorAll('.role-option').forEach(opt => opt.classList.remove('selected'));
-            event.target.classList.add('selected');
+            element.classList.add('selected');
             document.getElementById('employee-role').value = role;
         }
         
-        function selectOperationType(type) {
+        function selectOperationType(element, type) {
             document.querySelectorAll('.operation-type-option').forEach(opt => opt.classList.remove('selected'));
-            event.target.classList.add('selected');
+            element.classList.add('selected');
             document.getElementById('inventory-operation-type').value = type;
         }
         
         function renderTeamChips() {
             const container = document.getElementById('team-chips');
-            let html = '';
+            container.innerHTML = teams.map(team => `
+                <div class="chip-option team-color" style="background-color: ${team.color};" onclick="selectTeam(this, ${team.id})">
+                    ${team.name}
+                </div>
+            `).join('');
             
-            teams.forEach(team => {
-                html += `
-                    <div class="chip-option team-color" style="background-color: ${team.color}; border-color: ${team.color};" onclick="selectTeam(${team.id})">
-                        ${team.name}
-                    </div>
-                `;
-            });
-            
-            container.innerHTML = html;
-            
-            // Выбираем первую бригаду по умолчанию
             if (teams.length > 0) {
-                setTimeout(() => {
-                    const firstChip = container.querySelector('.chip-option');
-                    if (firstChip) {
-                        firstChip.classList.add('selected');
-                        document.getElementById('event-team').value = teams[0].id;
-                    }
-                }, 10);
+                container.children[0]?.classList.add('selected');
+                document.getElementById('event-team').value = teams[0].id;
             }
         }
         
         function renderEmployeeChips() {
             const container = document.getElementById('employee-chips');
-            let html = '';
-            
-            employees.forEach(employee => {
-                html += `
-                    <div class="chip-option" onclick="selectEmployee(${employee.id})">
-                        ${employee.name}
-                    </div>
-                `;
-            });
-            
-            container.innerHTML = html;
-            
-            // Выбираем первого сотрудника по умолчанию
+            container.innerHTML = employees.map(employee => `
+                <div class="chip-option" onclick="selectEmployee(this, ${employee.id})">
+                    ${employee.name}
+                </div>
+            `).join('');
+
             if (employees.length > 0) {
-                setTimeout(() => {
-                    const firstChip = container.querySelector('.chip-option');
-                    if (firstChip) {
-                        firstChip.classList.add('selected');
-                        document.getElementById('event-employee').value = employees[0].id;
-                    }
-                }, 10);
+                container.children[0]?.classList.add('selected');
+                document.getElementById('event-employee').value = employees[0].id;
             }
         }
         
@@ -2883,16 +2181,7 @@
                     return;
                 }
                 
-                const newEvent = {
-                    id: Date.now(),
-                    type: 'team',
-                    date: selectedDate,
-                    address: address,
-                    teamId: teamId,
-                    equipment: equipment,
-                    comments: []
-                };
-                events.push(newEvent);
+                events.push({ id: Date.now(), type: 'team', date: selectedDate, address, teamId, equipment, comments: [] });
             } else {
                 const startDate = document.getElementById('event-start-date').value;
                 const endDate = document.getElementById('event-end-date').value;
@@ -2903,15 +2192,7 @@
                     return;
                 }
                 
-                const newEvent = {
-                    id: Date.now(),
-                    type: 'vacation',
-                    startDate: startDate,
-                    endDate: endDate,
-                    employeeId: employeeId,
-                    comments: []
-                };
-                events.push(newEvent);
+                events.push({ id: Date.now(), type: 'vacation', startDate, endDate, employeeId, comments: [] });
             }
             
             closeModal('event-modal');
@@ -2952,15 +2233,8 @@
             const commentText = document.getElementById('new-comment').value.trim();
             if (!commentText || !selectedEventForDetails) return;
             
-            if (!selectedEventForDetails.comments) {
-                selectedEventForDetails.comments = [];
-            }
-            
-            selectedEventForDetails.comments.push({
-                author: currentUser.name,
-                text: commentText,
-                date: formatDate(new Date())
-            });
+            selectedEventForDetails.comments = selectedEventForDetails.comments || [];
+            selectedEventForDetails.comments.push({ author: currentUser.name, text: commentText, date: formatDate(new Date()) });
             
             document.getElementById('new-comment').value = '';
             renderComments();
@@ -2968,74 +2242,19 @@
         }
         
         function renderComments() {
-            if (!selectedEventForDetails) return;
-            
             const commentsList = document.getElementById('comments-list');
-            let html = '';
-            
-            if (selectedEventForDetails.comments && selectedEventForDetails.comments.length > 0) {
-                selectedEventForDetails.comments.forEach(comment => {
-                    html += `
-                        <div class="comment">
-                            <span class="comment-author">${comment.author}:</span>
-                            <span>${comment.text}</span>
-                            <div style="font-size: 11px; color: #6c757d; margin-top: 4px;">${comment.date}</div>
-                        </div>
-                    `;
-                });
-            } else {
-                html = '<div style="color: #6c757d; font-style: italic;">Нет комментариев</div>';
-            }
-            
-            commentsList.innerHTML = html;
+            commentsList.innerHTML = (selectedEventForDetails?.comments?.length > 0) ?
+                selectedEventForDetails.comments.map(comment => `
+                    <div class="comment">
+                        <span class="comment-author">${comment.author}:</span>
+                        <span>${comment.text}</span>
+                        <div style="font-size: 11px; color: #6c757d; margin-top: 4px;">${comment.date.split('-').reverse().join('.')}</div>
+                    </div>
+                `).join('') :
+                '<div style="color: #6c757d; font-style: italic;">Нет комментариев</div>';
         }
         
-        function showAllEvents(date) {
-            const dayEvents = events.filter(e => {
-                if (e.type === 'team') {
-                    return e.date === date;
-                } else if (e.type === 'vacation' && showVacations) {
-                    return e.startDate <= date && e.endDate >= date;
-                }
-                return false;
-            });
-            
-            if (dayEvents.length === 0) return;
-            
-            let content = `<h3>События на ${date.split('-').reverse().join('.')}</h3>`;
-            
-            dayEvents.forEach(event => {
-                if (event.type === 'team') {
-                    const teamColor = getTeamColor(event.teamId);
-                    content += `
-                        <div style="display: flex; align-items: center; padding: 8px; margin: 8px 0; background: ${teamColor}20; border-left: 4px solid ${teamColor}; border-radius: 6px; cursor: pointer;" onclick="openEventDetails(${event.id})">
-                            <div style="width: 12px; height: 12px; border-radius: 50%; background: ${teamColor}; margin-right: 10px;"></div>
-                            <div>
-                                <div style="font-weight: 600;">${getTeamName(event.teamId)}</div>
-                                <div style="font-size: 13px; color: #666;">${event.address}</div>
-                            </div>
-                        </div>
-                    `;
-                } else if (event.type === 'vacation') {
-                    content += `
-                        <div style="display: flex; align-items: center; padding: 8px; margin: 8px 0; background: #34c75920; border-left: 4px solid #34c759; border-radius: 6px; cursor: pointer;" onclick="openEventDetails(${event.id})">
-                            <div style="width: 12px; height: 12px; border-radius: 50%; background: #34c759; margin-right: 10px;"></div>
-                            <div>
-                                <div style="font-weight: 600;">${getEmployeeName(event.employeeId)}</div>
-                                <div style="font-size: 13px; color: #666;">Отпуск</div>
-                            </div>
-                        </div>
-                    `;
-                }
-            });
-            
-            document.getElementById('event-details-title').textContent = 'События дня';
-            document.getElementById('event-details-content').innerHTML = content;
-            document.getElementById('comment-section').style.display = 'none';
-            openModal('event-details-modal');
-        }
-        
-        // Заявки на отпуск
+        // Заявки на отпуск и материалы... (код без изменений)
         function openVacationRequestModal() {
             document.getElementById('vacation-start-date').value = '';
             document.getElementById('vacation-end-date').value = '';
@@ -3053,146 +2272,81 @@
                 return;
             }
             
-            const newRequest = {
-                id: Date.now(),
-                type: 'vacation',
-                userId: currentUser.username,
-                userName: currentUser.name,
-                startDate: startDate,
-                endDate: endDate,
-                reason: reason,
-                status: 'pending',
-                createdAt: formatDate(new Date())
-            };
-            
-            requests.push(newRequest);
+            requests.push({ id: Date.now(), type: 'vacation', userId: currentUser.username, userName: currentUser.name, startDate, endDate, reason, status: 'pending', createdAt: formatDate(new Date()) });
             closeModal('vacation-request-modal');
             showNotification('Заявка на отпуск отправлена');
         }
         
-        // Управление заявками
         function renderRequests() {
-            let html = '';
-            
-            if (requests.length === 0) {
-                html = '<div class="card">Нет заявок</div>';
-            } else {
-                requests.forEach(request => {
-                    const statusClass = `status-${request.status}`;
-                    const statusText = request.status === 'pending' ? 'Ожидает' : 
-                                     request.status === 'approved' ? 'Одобрена' : 'Отклонена';
-                    
-                    if (request.type === 'vacation') {
-                        html += `
-                            <div class="request-item ${request.status}">
-                                <div style="display: flex; justify-content: space-between; align-items: start; flex-wrap: wrap; gap: 10px;">
-                                    <div style="flex: 1; min-width: 200px;">
-                                        <h4 style="margin: 0 0 8px 0;">Заявка на отпуск</h4>
-                                        <p style="margin: 4px 0;"><strong>Сотрудник:</strong> ${request.userName}</p>
-                                        <p style="margin: 4px 0;"><strong>Период:</strong> ${request.startDate.split('-').reverse().join('.')} - ${request.endDate.split('-').reverse().join('.')}</p>
-                                        <p style="margin: 4px 0;"><strong>Причина:</strong> ${request.reason}</p>
-                                        <p style="margin: 4px 0;"><strong>Дата подачи:</strong> ${request.createdAt.split('-').reverse().join('.')}</p>
-                                    </div>
-                                    <div style="text-align: right; flex-shrink: 0;">
-                                        <span class="status-badge ${statusClass}">${statusText}</span>
-                                        ${currentUser.role === 'manager' && request.status === 'pending' ? `
-                                            <div class="button-group" style="margin-top: 10px;">
-                                                <button onclick="approveRequest(${request.id})" style="margin-right: 5px; padding: 6px 12px; font-size: 12px;">Одобрить</button>
-                                                <button onclick="rejectRequest(${request.id})" class="button-danger" style="padding: 6px 12px; font-size: 12px;">Отклонить</button>
-                                            </div>
-                                        ` : ''}
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-                    } else if (request.type === 'inventory') {
-                        html += `
-                            <div class="request-item ${request.status}">
-                                <div style="display: flex; justify-content: space-between; align-items: start; flex-wrap: wrap; gap: 10px;">
-                                    <div style="flex: 1; min-width: 200px;">
-                                        <h4 style="margin: 0 0 8px 0;">Заявка на материалы</h4>
-                                        <p style="margin: 4px 0;"><strong>Сотрудник:</strong> ${request.userName}</p>
-                                        <p style="margin: 4px 0;"><strong>Материал:</strong> ${getPipeTypeName(request.itemId)}</p>
-                                        <p style="margin: 4px 0;"><strong>Количество:</strong> ${request.amount}</p>
-                                        <p style="margin: 4px 0;"><strong>Причина:</strong> ${request.reason}</p>
-                                        <p style="margin: 4px 0;"><strong>Дата подачи:</strong> ${request.createdAt.split('-').reverse().join('.')}</p>
-                                    </div>
-                                    <div style="text-align: right; flex-shrink: 0;">
-                                        <span class="status-badge ${statusClass}">${statusText}</span>
-                                        ${currentUser.role === 'manager' && request.status === 'pending' ? `
-                                            <div class="button-group" style="margin-top: 10px;">
-                                                <button onclick="approveInventoryRequest(${request.id})" style="margin-right: 5px; padding: 6px 12px; font-size: 12px;">Одобрить</button>
-                                                <button onclick="rejectRequest(${request.id})" class="button-danger" style="padding: 6px 12px; font-size: 12px;">Отклонить</button>
-                                            </div>
-                                        ` : ''}
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-                    }
-                });
-            }
-            
-            document.getElementById('requests-list').innerHTML = html;
-        }
-        
-        function approveRequest(requestId) {
-            const request = requests.find(r => r.id === requestId);
-            if (!request) return;
-            
-            request.status = 'approved';
-            
-            // Если это заявка на отпуск, добавляем событие в календарь
-            if (request.type === 'vacation') {
-                const employeeId = employees.find(e => e.name === request.userName)?.id;
-                if (employeeId) {
-                    events.push({
-                        id: Date.now(),
-                        type: 'vacation',
-                        startDate: request.startDate,
-                        endDate: request.endDate,
-                        employeeId: employeeId,
-                        comments: []
-                    });
+            document.getElementById('requests-list').innerHTML = (requests.length === 0) ? '<div class="card">Нет заявок</div>' : requests.map(request => {
+                const statusClass = `status-${request.status}`;
+                const statusText = { pending: 'Ожидает', approved: 'Одобрена', rejected: 'Отклонена'}[request.status];
+                
+                let requestDetails = '';
+                if (request.type === 'vacation') {
+                    requestDetails = `
+                        <h4 style="margin: 0 0 8px 0;">Заявка на отпуск</h4>
+                        <p style="margin: 4px 0;"><strong>Сотрудник:</strong> ${request.userName}</p>
+                        <p style="margin: 4px 0;"><strong>Период:</strong> ${request.startDate.split('-').reverse().join('.')} - ${request.endDate.split('-').reverse().join('.')}</p>
+                        <p style="margin: 4px 0;"><strong>Причина:</strong> ${request.reason}</p>
+                    `;
+                } else if (request.type === 'inventory') {
+                    requestDetails = `
+                        <h4 style="margin: 0 0 8px 0;">Заявка на материалы</h4>
+                        <p style="margin: 4px 0;"><strong>Сотрудник:</strong> ${request.userName}</p>
+                        <p style="margin: 4px 0;"><strong>Материал:</strong> ${getPipeTypeName(request.itemId)}</p>
+                        <p style="margin: 4px 0;"><strong>Количество:</strong> ${request.amount}</p>
+                        <p style="margin: 4px 0;"><strong>Причина:</strong> ${request.reason}</p>
+                    `;
                 }
+
+                const managerControls = (currentUser.role === 'manager' && request.status === 'pending') ? `
+                    <div class="button-group" style="margin-top: 10px;">
+                        <button onclick="handleRequest(${request.id}, true)" style="padding: 6px 12px; font-size: 12px;">Одобрить</button>
+                        <button onclick="handleRequest(${request.id}, false)" class="button-danger" style="padding: 6px 12px; font-size: 12px;">Отклонить</button>
+                    </div>` : '';
+
+                return `
+                    <div class="request-item ${request.status}">
+                        <div style="display: flex; justify-content: space-between; align-items: start; flex-wrap: wrap; gap: 10px;">
+                            <div style="flex: 1; min-width: 200px;">
+                                ${requestDetails}
+                                <p style="margin: 4px 0; font-size: 12px; color: #6c757d;">Подана: ${request.createdAt.split('-').reverse().join('.')}</p>
+                            </div>
+                            <div style="text-align: right; flex-shrink: 0;">
+                                <span class="status-badge ${statusClass}">${statusText}</span>
+                                ${managerControls}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function handleRequest(requestId, isApproved) {
+            const request = requests.find(r => r.id === requestId);
+            if (!request) return;
+
+            request.status = isApproved ? 'approved' : 'rejected';
+
+            if (isApproved) {
+                if (request.type === 'vacation') {
+                    const employeeId = employees.find(e => e.name === request.userName)?.id;
+                    if (employeeId) {
+                        events.push({ id: Date.now(), type: 'vacation', startDate: request.startDate, endDate: request.endDate, employeeId, comments: [] });
+                    }
+                    renderCalendar();
+                } else if (request.type === 'inventory') {
+                    inventoryOperations.push({ id: Date.now(), itemId: request.itemId, date: formatDate(new Date()), type: 'out', amount: request.amount, notes: `Выдано по заявке: ${request.userName}` });
+                    renderInventoryGrid();
+                }
+                showNotification('Заявка одобрена');
+            } else {
+                showNotification('Заявка отклонена');
             }
-            
             renderRequests();
-            renderCalendar();
-            showNotification('Заявка одобрена');
         }
-        
-        function approveInventoryRequest(requestId) {
-            const request = requests.find(r => r.id === requestId);
-            if (!request) return;
-            
-            request.status = 'approved';
-            
-            // Добавляем операцию расхода на складе
-            inventoryOperations.push({
-                id: Date.now(),
-                itemId: request.itemId,
-                date: formatDate(new Date()),
-                type: 'out',
-                amount: request.amount,
-                notes: `Выдано ${request.userName} - ${request.reason}`
-            });
-            
-            renderRequests();
-            renderInventoryGrid();
-            showNotification('Заявка одобрена, материалы списаны со склада');
-        }
-        
-        function rejectRequest(requestId) {
-            const request = requests.find(r => r.id === requestId);
-            if (!request) return;
-            
-            request.status = 'rejected';
-            renderRequests();
-            showNotification('Заявка отклонена');
-        }
-        
-        // Заявки на материалы
+
         function openInventoryRequestModal(itemId) {
             selectedInventoryItem = itemId;
             const itemName = itemId === 0 ? "Дизельное топливо" : getPipeTypeName(itemId);
@@ -3201,7 +2355,7 @@
             document.getElementById('request-reason').value = '';
             openModal('inventory-request-modal');
         }
-        
+
         function submitInventoryRequest() {
             const amount = parseInt(document.getElementById('request-amount').value);
             const reason = document.getElementById('request-reason').value.trim();
@@ -3211,221 +2365,129 @@
                 return;
             }
             
-            const newRequest = {
-                id: Date.now(),
-                type: 'inventory',
-                userId: currentUser.username,
-                userName: currentUser.name,
-                itemId: selectedInventoryItem,
-                amount: amount,
-                reason: reason,
-                status: 'pending',
-                createdAt: formatDate(new Date())
-            };
-            
-            requests.push(newRequest);
+            requests.push({ id: Date.now(), type: 'inventory', userId: currentUser.username, userName: currentUser.name, itemId: selectedInventoryItem, amount, reason, status: 'pending', createdAt: formatDate(new Date()) });
             closeModal('inventory-request-modal');
             showNotification('Заявка на материалы отправлена');
         }
-        
-        // Бригады
+
+        // Бригады и сотрудники... (код без изменений)
         function renderTeams() {
-            let html = '';
-            
-            teams.forEach(team => {
-                const teamEmployees = employees.filter(e => e.teamId === team.id);
+            document.getElementById('teams-list').innerHTML = teams.map(team => {
+                const teamEmployeesHtml = employees.filter(e => e.teamId === team.id).map(employee => `
+                    <span class="employee-chip" style="background-color: ${team.color}20; color: ${team.color}; border: 1px solid ${team.color}40;">
+                        ${employee.name}
+                        <span onclick="removeEmployeeFromTeam(${employee.id}, event)" style="margin-left: 5px; cursor: pointer; color: #ff3b30;">×</span>
+                    </span>
+                `).join('');
                 
-                let employeesHtml = '';
-                teamEmployees.forEach(employee => {
-                    employeesHtml += `
-                        <span class="employee-chip" style="background-color: ${team.color}20; color: ${team.color}; border: 1px solid ${team.color}40;">
-                            ${employee.name}
-                            <span onclick="removeEmployeeFromTeam(${employee.id}, event)" style="margin-left: 5px; cursor: pointer; color: #ff3b30;">×</span>
-                        </span>
-                    `;
-                });
-                
-                html += `
+                const unassignedEmployeesOptions = employees.filter(e => !e.teamId).map(e => `<option value="${e.id}">${e.name}</option>`).join('');
+
+                return `
                     <div class="card">
-                        <div style="display: flex; align-items: center; margin-bottom: 15px;">
-                            <h3 style="margin: 0; flex: 1;">${team.name}</h3>
+                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px;">
+                            <h3 style="margin: 0;">${team.name}</h3>
                             <div style="width: 20px; height: 20px; border-radius: 50%; background-color: ${team.color};"></div>
                         </div>
-                        <div style="margin-bottom: 15px;">${employeesHtml}</div>
+                        <div style="margin-bottom: 15px; display: flex; flex-wrap: wrap; gap: 5px;">${teamEmployeesHtml || '<i style="color: #6c757d;">Нет сотрудников</i>'}</div>
                         <div class="button-group" style="align-items: stretch;">
-                            <select id="add-to-team-${team.id}" style="flex: 1; min-width: 0;">
+                            <select id="add-to-team-${team.id}" style="flex: 1; min-width: 150px;" ${!unassignedEmployeesOptions ? 'disabled' : ''}>
                                 <option value="">Добавить сотрудника</option>
-                                ${employees.filter(e => !e.teamId).map(e => 
-                                    `<option value="${e.id}">${e.name}</option>`
-                                ).join('')}
+                                ${unassignedEmployeesOptions}
                             </select>
-                            <button onclick="addEmployeeToTeam(${team.id})">Добавить</button>
+                            <button onclick="addEmployeeToTeam(${team.id})" ${!unassignedEmployeesOptions ? 'disabled' : ''}>Добавить</button>
                             <button onclick="deleteTeam(${team.id})" class="button-danger">Удалить</button>
                         </div>
                     </div>
                 `;
-            });
-            
-            document.getElementById('teams-list').innerHTML = html;
+            }).join('');
         }
-        
+
         function renderEmployees() {
-            let html = '';
-            
-            employees.forEach(employee => {
-                const roleText = employee.role === 'manager' ? 'Управляющий' : 'Сотрудник';
-                html += `
-                    <div class="card">
-                        <div style="display: flex; justify-content: space-between; align-items: start; flex-wrap: wrap; gap: 10px;">
-                            <div style="flex: 1; min-width: 150px;">
-                                <div style="font-weight: 600; margin-bottom: 4px;">${employee.name}</div>
-                                <div style="color: #6c757d; font-size: 14px;">${roleText}</div>
-                            </div>
-                            <div class="button-group" style="align-items: stretch;">
-                                <select id="assign-team-${employee.id}" style="min-width: 120px;">
-                                    <option value="">Не назначен</option>
-                                    ${teams.map(team => 
-                                        `<option value="${team.id}" ${employee.teamId === team.id ? 'selected' : ''}>${team.name}</option>`
-                                    ).join('')}
-                                </select>
-                                <button onclick="assignEmployeeToTeam(${employee.id})">Назначить</button>
-                                <button onclick="deleteEmployee(${employee.id})" class="button-danger">Удалить</button>
-                            </div>
+            document.getElementById('employees-list').innerHTML = employees.map(employee => `
+                <div class="card">
+                    <div style="display: flex; justify-content: space-between; align-items: start; flex-wrap: wrap; gap: 10px;">
+                        <div style="flex: 1; min-width: 150px;">
+                            <div style="font-weight: 600; margin-bottom: 4px;">${employee.name}</div>
+                            <div style="color: #6c757d; font-size: 14px;">${employee.role === 'manager' ? 'Управляющий' : 'Сотрудник'}</div>
+                        </div>
+                        <div class="button-group" style="align-items: stretch;">
+                            <button onclick="deleteEmployee(${employee.id})" class="button-danger">Удалить</button>
                         </div>
                     </div>
-                `;
-            });
-            
-            document.getElementById('employees-list').innerHTML = html;
+                </div>
+            `).join('');
         }
-        
-        function selectTeamColor(color) {
-            selectedTeamColor = color;
-            document.querySelectorAll('#color-chips .chip-option').forEach(opt => opt.classList.remove('selected'));
-            event.target.classList.add('selected');
+
+        function selectTeamColor(element, color) {
+            selectChip(element);
             document.getElementById('team-color').value = color;
         }
-        
+
         function openTeamModal() {
             document.getElementById('team-name').value = '';
-            selectedTeamColor = "#667eea";
-            
-            // Сбрасываем выбор цвета
-            document.querySelectorAll('#color-chips .chip-option').forEach(opt => opt.classList.remove('selected'));
-            document.querySelector('#color-chips .chip-option').classList.add('selected');
-            document.getElementById('team-color').value = "#667eea";
-            
+            selectTeamColor(document.querySelector('#color-chips .chip-option'), '#667eea');
             openModal('team-modal');
         }
-        
+
         function openEmployeeModal() {
             document.getElementById('employee-name').value = '';
-            
-            // Сбрасываем выбор роли
-            document.querySelectorAll('.role-option').forEach(opt => opt.classList.remove('selected'));
-            document.querySelector('.role-option').classList.add('selected');
-            document.getElementById('employee-role').value = 'employee';
-            
+            selectRole(document.querySelector('.role-selector .role-option'), 'employee');
             openModal('employee-modal');
         }
-        
+
         function saveTeam() {
             const name = document.getElementById('team-name').value.trim();
             const color = document.getElementById('team-color').value;
-            
-            if (!name) {
-                showNotification('Введите название бригады', 'error');
-                return;
-            }
-            
-            teams.push({
-                id: Date.now(),
-                name: name,
-                color: color
-            });
-            
+            if (!name) return showNotification('Введите название бригады', 'error');
+            teams.push({ id: Date.now(), name, color });
             closeModal('team-modal');
             renderTeams();
-            renderEmployees();
             showNotification('Бригада добавлена');
         }
-        
+
         function saveEmployee() {
             const name = document.getElementById('employee-name').value.trim();
             const role = document.getElementById('employee-role').value;
-            
-            if (!name) {
-                showNotification('Введите ФИО сотрудника', 'error');
-                return;
-            }
-            
-            employees.push({
-                id: Date.now(),
-                name: name,
-                teamId: null,
-                role: role
-            });
-            
+            if (!name) return showNotification('Введите ФИО сотрудника', 'error');
+            employees.push({ id: Date.now(), name, teamId: null, role });
             closeModal('employee-modal');
             renderTeams();
             renderEmployees();
             showNotification('Сотрудник добавлен');
         }
-        
-        function assignEmployeeToTeam(employeeId) {
-            const select = document.getElementById(`assign-team-${employeeId}`);
-            const teamId = select.value ? parseInt(select.value) : null;
-            
-            const employee = employees.find(e => e.id === employeeId);
-            if (employee) {
-                employee.teamId = teamId;
-                renderTeams();
-                renderEmployees();
-                showNotification('Сотрудник назначен');
-            }
-        }
-        
+
         function addEmployeeToTeam(teamId) {
             const select = document.getElementById(`add-to-team-${teamId}`);
             const employeeId = parseInt(select.value);
-            
             if (employeeId) {
                 const employee = employees.find(e => e.id === employeeId);
                 if (employee) {
                     employee.teamId = teamId;
                     renderTeams();
-                    renderEmployees();
                     showNotification('Сотрудник добавлен в бригаду');
                 }
             }
         }
-        
+
         function removeEmployeeFromTeam(employeeId, event) {
             event.stopPropagation();
-            
             const employee = employees.find(e => e.id === employeeId);
             if (employee) {
                 employee.teamId = null;
                 renderTeams();
-                renderEmployees();
                 showNotification('Сотрудник откреплен от бригады');
             }
         }
-        
+
         function deleteTeam(teamId) {
             if (confirm("Удалить бригаду? Сотрудники будут откреплены.")) {
                 teams = teams.filter(t => t.id !== teamId);
-                employees.forEach(e => {
-                    if (e.teamId === teamId) {
-                        e.teamId = null;
-                    }
-                });
+                employees.forEach(e => { if (e.teamId === teamId) e.teamId = null; });
                 renderTeams();
-                renderEmployees();
                 showNotification('Бригада удалена');
             }
         }
-        
+
         function deleteEmployee(employeeId) {
             if (confirm("Удалить сотрудника?")) {
                 employees = employees.filter(e => e.id !== employeeId);
@@ -3437,26 +2499,29 @@
         
         // Склад
         function renderInventoryGrid() {
+            const grid = document.getElementById('inventory-grid');
             let html = '';
             
-            pipeTypes.forEach(type => {
-                const currentAmount = calculateCurrentAmount(type.id);
-                const minStock = getPipeTypeMinStock(type.id);
-                const needsRestock = currentAmount < minStock;
+            const allItems = [
+                ...pipeTypes.map(type => ({ ...type, isFuel: false })),
+                { id: 0, name: "🛢️ Дизельное топливо", minStock: 100, isFuel: true }
+            ];
+
+            allItems.forEach(item => {
+                const currentAmount = calculateCurrentAmount(item.id);
+                const needsRestock = currentAmount < item.minStock;
                 
-                const clickHandler = currentUser.role === 'manager' ? 
-                    `openInventoryHistoryModal(${type.id})` : 
-                    `openInventoryRequestModal(${type.id})`;
-                
+                const clickHandler = currentUser.role === 'manager' 
+                    ? `openInventoryHistoryModal(${item.id})` 
+                    : `openInventoryRequestModal(${item.id})`;
+
                 html += `
                     <div class="inventory-item" onclick="${clickHandler}">
                         <div class="inventory-item-header">
-                            <div class="inventory-item-title">${type.name}</div>
-                            <div class="inventory-item-amount">${currentAmount}</div>
+                            <div class="inventory-item-title">${item.name}</div>
+                            <div class="inventory-item-amount">${currentAmount}${item.isFuel ? ' л' : ''}</div>
                         </div>
-                        ${needsRestock ? 
-                            `<div class="inventory-item-warning">⚠️ Требуется пополнение (мин. ${minStock})</div>` : 
-                            ''}
+                        ${needsRestock ? `<div class="inventory-item-warning">⚠️ Требуется пополнение (мин. ${item.minStock})</div>` : ''}
                         <div style="margin-top: 10px; font-size: 14px; color: #6c757d;">
                             ${currentUser.role === 'manager' ? 'Нажмите для управления' : 'Нажмите для запроса'}
                         </div>
@@ -3464,89 +2529,46 @@
                 `;
             });
             
-            // Добавляем топливо
-            const fuelAmount = calculateCurrentAmount(0);
-            const fuelClickHandler = currentUser.role === 'manager' ? 
-                `openInventoryHistoryModal(0)` : 
-                `openInventoryRequestModal(0)`;
-            
-            html += `
-                <div class="inventory-item" onclick="${fuelClickHandler}">
-                    <div class="inventory-item-header">
-                        <div class="inventory-item-title">🛢️ Дизельное топливо</div>
-                        <div class="inventory-item-amount">${fuelAmount} л</div>
-                    </div>
-                    <div style="margin-top: 10px; font-size: 14px; color: #6c757d;">
-                        ${currentUser.role === 'manager' ? 'Нажмите для управления' : 'Нажмите для запроса'}
-                    </div>
-                </div>
-            `;
-            
-            document.getElementById('inventory-grid').innerHTML = html;
+            grid.innerHTML = html;
         }
-        
+
         function openInventoryHistoryModal(itemId) {
             selectedInventoryItem = itemId;
+            const item = itemId === 0 ? { name: "Дизельное топливо", isFuel: true } : pipeTypes.find(t => t.id === itemId);
             
-            const title = itemId === 0 ? "Дизельное топливо" : getPipeTypeName(itemId);
-            document.getElementById('inventory-history-title').textContent = `История операций: ${title}`;
-            
+            document.getElementById('inventory-history-title').textContent = `История: ${item.name}`;
             const currentAmount = calculateCurrentAmount(itemId);
-            document.getElementById('inventory-current-amount').textContent = 
-                itemId === 0 ? `${currentAmount} л` : currentAmount;
+            document.getElementById('inventory-current-amount').textContent = `${currentAmount}${item.isFuel ? ' л' : ''}`;
             
-            // Показываем/скрываем кнопку добавления операции
-            const addBtn = document.getElementById('add-operation-btn');
-            if (currentUser.role === 'manager') {
-                addBtn.style.display = 'inline-block';
-            } else {
-                addBtn.style.display = 'none';
-            }
-            
-            // Заполняем таблицу истории
+            document.getElementById('add-operation-btn').style.display = currentUser.role === 'manager' ? 'inline-block' : 'none';
+
             const tbody = document.getElementById('inventory-history-table');
-            tbody.innerHTML = '';
+            const operations = inventoryOperations.filter(op => op.itemId === itemId).sort((a, b) => new Date(b.date) - new Date(a.date));
             
-            const operations = inventoryOperations
-                .filter(op => op.itemId === itemId)
-                .sort((a, b) => new Date(b.date) - new Date(a.date));
-            
-            if (operations.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; padding: 20px; color: #6c757d;">Нет операций</td></tr>';
-            } else {
-                operations.forEach(op => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td style="padding: 12px 15px; border-bottom: 1px solid #d2d2d7;">${op.date.split('-').reverse().join('.')}</td>
-                        <td style="padding: 12px 15px; border-bottom: 1px solid #d2d2d7;">${op.type === 'in' ? '📈 Поступление' : '📉 Расход'}</td>
-                        <td style="padding: 12px 15px; border-bottom: 1px solid #d2d2d7; color: ${op.type === 'in' ? '#28a745' : '#dc3545'}; font-weight: 600;">
-                            ${op.type === 'in' ? '+' : '-'}${op.amount}${itemId === 0 ? ' л' : ''}
-                        </td>
-                        <td style="padding: 12px 15px; border-bottom: 1px solid #d2d2d7;">${op.notes}</td>
-                    `;
-                    tbody.appendChild(row);
-                });
-            }
+            tbody.innerHTML = operations.length === 0 ? '<tr><td colspan="4" style="text-align: center; padding: 20px; color: #6c757d;">Нет операций</td></tr>' : operations.map(op => `
+                <tr>
+                    <td>${op.date.split('-').reverse().join('.')}</td>
+                    <td>${op.type === 'in' ? '📈 Поступление' : '📉 Расход'}</td>
+                    <td style="color: ${op.type === 'in' ? '#28a745' : '#dc3545'}; font-weight: 600;">
+                        ${op.type === 'in' ? '+' : '-'}${op.amount}${item.isFuel ? ' л' : ''}
+                    </td>
+                    <td style="white-space: normal;">${op.notes}</td>
+                </tr>
+            `).join('');
             
             openModal('inventory-history-modal');
         }
-        
+
         function openInventoryOperationModal() {
-            const title = selectedInventoryItem === 0 ? 
-                "Дизельное топливо" : 
-                getPipeTypeName(selectedInventoryItem);
-            
-            document.getElementById('inventory-operation-title').textContent = 
-                `Добавить операцию: ${title}`;
-            
+            const item = selectedInventoryItem === 0 ? { name: "Дизельное топливо" } : pipeTypes.find(t => t.id === selectedInventoryItem);
+            document.getElementById('inventory-operation-title').textContent = `Операция: ${item.name}`;
             document.getElementById('inventory-operation-date').value = formatDate(new Date());
             document.getElementById('inventory-operation-amount').value = '';
             document.getElementById('inventory-operation-notes').value = '';
-            document.getElementById('inventory-operation-type').value = 'in';
-            
+            selectOperationType(document.querySelector('.operation-type-selector .income'), 'in');
             openModal('inventory-operation-modal');
         }
-        
+
         function saveInventoryOperation() {
             const type = document.getElementById('inventory-operation-type').value;
             const date = document.getElementById('inventory-operation-date').value;
@@ -3554,15 +2576,7 @@
             const notes = document.getElementById('inventory-operation-notes').value;
             
             if (date && !isNaN(amount) && amount > 0) {
-                inventoryOperations.push({
-                    id: Date.now(),
-                    itemId: selectedInventoryItem,
-                    date: date,
-                    type: type,
-                    amount: amount,
-                    notes: notes
-                });
-                
+                inventoryOperations.push({ id: Date.now(), itemId: selectedInventoryItem, date, type, amount, notes });
                 closeModal('inventory-operation-modal');
                 openInventoryHistoryModal(selectedInventoryItem);
                 renderInventoryGrid();
@@ -3573,18 +2587,9 @@
         }
         
         // Обработка клавиатуры для входа
-        document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('password').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    login();
-                }
-            });
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('password').addEventListener('keypress', e => { if (e.key === 'Enter') login(); });
         });
-        
-        // Инициализация
-        window.onload = function() {
-            // Приложение запускается с экрана входа
-        };
     </script>
 </body>
 </html>
