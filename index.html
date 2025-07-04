@@ -7,6 +7,13 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="format-detection" content="telephone=no">
     <title>Управление бригадами и складом</title>
+<!-- PWA Meta tags -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Бригады">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="msapplication-TileColor" content="#667eea">
+<link rel="manifest" href="manifest.json">
     <style>
         :root {
             --tab-bar-height: 70px; /* Высота нижней панели навигации */
@@ -2781,5 +2788,59 @@
             document.getElementById('password').addEventListener('keypress', e => { if (e.key === 'Enter') login(); });
         });
     </script>
+<script>
+// PWA инициализация
+function initializePWA() {
+    console.log("Initializing PWA...");
+    
+    if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("/sw.js")
+            .then(registration => {
+                console.log("SW registered:", registration);
+            })
+            .catch(error => {
+                console.log("SW registration failed:", error);
+            });
+    }
+    
+    let deferredPrompt;
+    
+    window.addEventListener("beforeinstallprompt", (e) => {
+        console.log("beforeinstallprompt fired");
+        e.preventDefault();
+        deferredPrompt = e;
+        
+        const installBtn = document.createElement("button");
+        installBtn.textContent = "📱 Установить приложение";
+        installBtn.id = "pwa-install-btn";
+        installBtn.style.cssText = "position: fixed; bottom: 90px; right: 20px; z-index: 1000; background: #28a745; color: white; border: none; padding: 12px 16px; border-radius: 8px; cursor: pointer; font-size: 14px; box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);";
+        
+        installBtn.onclick = async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                console.log("Install outcome:", outcome);
+                deferredPrompt = null;
+                installBtn.remove();
+            }
+        };
+        
+        document.body.appendChild(installBtn);
+    });
+    
+    window.addEventListener("appinstalled", () => {
+        console.log("PWA installed successfully!");
+        const installBtn = document.getElementById("pwa-install-btn");
+        if (installBtn) installBtn.remove();
+    });
+}
+
+// Запускаем PWA инициализацию
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initializePWA);
+} else {
+    initializePWA();
+}
+</script>
 </body>
 </html>
